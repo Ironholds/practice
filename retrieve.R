@@ -97,7 +97,7 @@ parse_content <- function(content){
   semantically_versioned <- grepl(x = content$Version, pattern = "\\d{1,}\\.\\d{1,}\\.", perl = TRUE)
   
   #Identify year of initial creation
-  year_created <- lapply(content$package, function(package){
+  year_created <- unlist(lapply(content$package, function(package){
     try({
       archive_content <- html(paste0("http://cran.r-project.org/src/contrib/Archive/", package))
     }, silent = TRUE)
@@ -121,5 +121,12 @@ parse_content <- function(content){
       }
     }
     return(NA)
-  })
+  }))
+  year_created[is.na(year_created)] <- content$Published[is.na(year_created)]
+  year_created <- lubridate::year(as.Date(year_created))
+  
+  results <- data.frame(package = content$package, first_published = year_created, naming_convention = package_names,
+                        author_count = authors, is_orphaned = is_orphaned, public_repository = links,
+                        has_tests = has_tests, is_versioned = semantically_versioned, is_roxygenised = is_roxygenised,
+                        copyright_license = licenses, stringsAsFactors = FALSE)
 }
