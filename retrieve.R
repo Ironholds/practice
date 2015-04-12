@@ -98,8 +98,6 @@ parse_content <- function(content){
     ifelse(length(x) == 0, return(FALSE), return(x))
   }))
   
-  
-  
   #Semantic versioning
   semantically_versioned <- grepl(x = content$Version, pattern = "\\d{1,}\\.\\d{1,}\\.", perl = TRUE)
   
@@ -132,8 +130,13 @@ parse_content <- function(content){
   year_created[is.na(year_created)] <- content$Published[is.na(year_created)]
   year_created <- lubridate::year(as.Date(year_created))
   
+  #Check if it specifies an R version
+  version <- grepl(x = content$Depends, pattern = "R \\(")
   results <- data.frame(package = content$package, first_published = year_created, naming_convention = package_names,
                         author_count = authors, is_orphaned = is_orphaned, public_repository = links,
-                        has_tests = has_tests, is_versioned = semantically_versioned, is_roxygenised = is_roxygenised,
-                        copyright_license = licenses, stringsAsFactors = FALSE)
+                        has_tests = has_tests, is_versioned = semantically_versioned, specifies_r_version = version,
+                        is_roxygenised = is_roxygenised, copyright_license = licenses, stringsAsFactors = FALSE)
+  write.table(results, file = file.path(getwd(), "Datasets", "parsed_package_data.tsv"), sep = "\t", row.names = FALSE,
+                                        quote = TRUE)
+  return(results)
 }
