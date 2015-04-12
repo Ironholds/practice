@@ -2,6 +2,8 @@
 library(rvest)
 library(httr)
 library(magrittr)
+library(tidyr)
+library(stringi)
 
 #Config variables and settings
 r_base_url <- "http://cran.r-project.org/web/packages/available_packages_by_name.html"
