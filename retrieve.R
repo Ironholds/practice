@@ -10,7 +10,8 @@ get_package_data <- function(){
 #Retrieve the content; for each package name and URL, go to the index page, scrape the data described,
 #turn it into a key-value pair data.frame, associate the package name and return, before binding
 #the whole thing together into one big data.frame. Then clean it a bit, of course, to remove
-#things we don't care about and sanitise key names.
+#things we don't care about and sanitise key names, and strip out horrible hideous things
+#like newlines that totally ruin everything for everyone.
 get_content <- function(package_data){
   content <- mapply(function(url, name){
     page <- html(url, user_agent(practice_ua))
@@ -27,6 +28,7 @@ get_content <- function(package_data){
   content <- content[!content$field %in% unwanted_fields,]
   content <- content[!grepl(x = content$field, pattern = unwanted_fields_regex),]
   content$field[grepl(x = content$field, pattern = source_regex, perl = TRUE)] <- "download_url"
+  content$value <- gsub(x = content$value, pattern = '(\n|\t|\\")', replacement = "")
   write.table(content, file = file.path(getwd(),"Datasets","raw_data.tsv"), quote = TRUE, sep = "\t",
               row.names = FALSE)
   return(spread(content, key = "field", value = "value"))
