@@ -13,6 +13,7 @@ get_package_data <- function(){
 #things we don't care about and sanitise key names, and strip out horrible hideous things
 #like newlines that totally ruin everything for everyone.
 get_content <- function(package_data){
+  #Get the actual content
   content <- mapply(function(url, name){
     page <- html(url, user_agent(practice_ua))
     content <- html_nodes(page, "td")
@@ -23,12 +24,12 @@ get_content <- function(package_data){
     return(results)
   }, package_data[[1]], package_data[[2]], SIMPLIFY = FALSE)
   content <- do.call("rbind",content)
+  
+  #Remove crud from keys and values, and keys we don't want
   rownames(content) <- NULL
-  content$field <- gsub(x = content$field, pattern = "( |:)", replacement = "")
-  content <- content[!content$field %in% unwanted_fields,]
-  content <- content[!grepl(x = content$field, pattern = unwanted_fields_regex),]
-  content$field[grepl(x = content$field, pattern = source_regex, perl = TRUE)] <- "download_url"
+  content$field <- gsub(x = content$field, pattern = "(\\W|:)", replacement = "", perl = TRUE)
   content$value <- gsub(x = content$value, pattern = '(\n|\t|\\")', replacement = "")
+  content <- content[!content$field %in% unwanted_fields,]
   write.table(content, file = file.path(getwd(),"Datasets","raw_data.tsv"), quote = TRUE, sep = "\t",
               row.names = FALSE)
   return(spread(content, key = "field", value = "value"))
