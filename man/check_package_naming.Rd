@@ -20,4 +20,8 @@ and Like.THIS and in a whole host of formats. \code{check_package_naming}
 consumes package metadata and identifies the format a package's name follows,
 using the convention described below.
 }
+\seealso{
+\code{\link{check_internal_naming}} for identifying if a consistent naming convention
+is used for functions within the package, and if so, what it is.
+}
 
