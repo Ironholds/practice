@@ -49,3 +49,20 @@ get_package_metadata <- function(package_name){
     fromJSON() %>%
     return
 }
+
+#'@title get the names of available packages
+#'@description retrieves the names of available packages from whatever CRAN mirror
+#'is associated with your session. These can then be passed into
+#'\code{\link{get_package_metadata}} or \code{\link{get_package_source}}. The
+#'results are cached locally after one call.
+#'
+#'@return a vector of package names that can be passed into \code{\link{get_package_metadata}}
+#'or \code{\link{get_package_source}}.
+#'
+#'@seealso \code{\link{get_package_metadata}} or \code{\link{get_package_source}} for making
+#'use of this information.
+#'
+#'@export
+get_package_names <- function(){
+  return(unname(available.packages()))
+}
