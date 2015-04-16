@@ -2,6 +2,7 @@
 
 export(check_package_naming)
 export(check_upstream_repository)
+export(depended_packages)
 export(get_package_source)
 export(remove_package_source)
 importFrom(httr,GET)
