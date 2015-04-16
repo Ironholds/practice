@@ -18,7 +18,7 @@ check_upstream_repository <- function(package_metadata){
   
   #Get last release and stick the fields that could plausibly contain a repo location
   #in an atomic vector.
-  last_release <- package_data$versions[[length(package_data$versions)]]
+  last_release <- package_metadata$versions[[length(package_metadata$versions)]]
   possible_repositories <- c(last_release$URL, last_release$BugReports)
   
   #Iterate through seeing if the fields contain anything we recognise. If they don't
