@@ -16,10 +16,12 @@
 #'
 #'@export 
 get_package_source <- function(package_name){
+  
   local_temp <- tempdir()
   dl_link <- download.packages(package_name, destdir = local_temp)[1,2]
   untar(file.path(dl_link), exdir = local_temp)
   file.remove(dl_link)
+  
   return(file.path(local_temp,package_name))
 }
 
@@ -40,7 +42,7 @@ remove_package_source <- function(package_directory){
 #'@importFrom httr GET content user_agent
 #'@importFrom jsonlite prettify fromJSON
 get_package_metadata <- function(package_name){
-  paste0("http://crandb.r-pkg.org/", package, "/all") %>%
+  paste0("http://crandb.r-pkg.org/", package_name, "/all") %>%
     GET(user_agent("practice - https://github.com/Ironholds/practice")) %>%
     content(as = "text", encoding = "UTF-8") %>%
     prettify() %>%

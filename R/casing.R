@@ -29,9 +29,8 @@ check_package_naming <- function(package_metadata){
   
   #All-alphanumeric or not? This just means "does it have a period
   #in it" - I tested against all of CRAN to make sure.
-  casing <- "Mixed Case"
   if(grepl(x = package_name, pattern = ".", fixed = TRUE)){
-    casing <- FALSE
+    alphanumeric <- FALSE
   }
   
   return(output)
