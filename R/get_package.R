@@ -39,8 +39,17 @@ remove_package_source <- function(package_directory){
   return(invisible())
 }
 
+#'@title get metadata associated with a package on CRAN
+#'@description pings the \href{http://crandb.r-pkg.org/}{crandb} CRAN metadata
+#'service to retrieve metadata associated with a specific package.
+#'
+#'@param package_name the name of a package, which can be retrieved with
+#'\code{\link{get_package_names}}
+#'
+#'@importFrom magrittr %>%
 #'@importFrom httr GET content user_agent
 #'@importFrom jsonlite prettify fromJSON
+#'@export
 get_package_metadata <- function(package_name){
   paste0("http://crandb.r-pkg.org/", package_name, "/all") %>%
     GET(user_agent("practice - https://github.com/Ironholds/practice")) %>%
@@ -64,5 +73,5 @@ get_package_metadata <- function(package_name){
 #'
 #'@export
 get_package_names <- function(){
-  return(unname(available.packages()))
+  return(unname(available.packages())[,1])
 }
