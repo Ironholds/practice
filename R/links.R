@@ -8,17 +8,31 @@
 #'mentioned package's name. Set to FALSE by default.
 #'
 #'@return a vector of package names, if \code{with_versions} is FALSE, or a data.frame
-#'of "packag" and "version", if TRUE.
+#'of "package" and "version", if TRUE.
 #'
 #'@export
-depended_packages <- function(package_metadata, with_versions = FALSE){
+links_to <- function(package_metadata, with_versions = FALSE){
   last_release <- package_metadata$versions[[length(package_metadata$versions)]]
   
   if(with_versions){
-    versioned_vec <- unlist(c(last_release$Depends, last_release$Imports, last_release$Suggests))
+    versioned_vec <- unlist(c(last_release$Depends, last_release$Imports, last_release$Suggests, last_release$Enhances))
     versioned <- as.data.frame(package = names(versioned_vec), version = versioned_vec,
                                stringsAsFactors = FALSE)
     return(versioned[!duplicated(versioned),])
   }
-  return(unique(c(names(last_release$Depends),names(last_release$Imports), names(last_release$Suggests))))
+  return(unique(c(names(last_release$Depends),names(last_release$Imports), names(last_release$Suggests), names(last_release$Enhances))))
+}
+
+#'@title Get a count of packages that mention a specific package
+#'@description consumes packageX's metadata and returns a count
+#'of how many packages depend on it.
+#'
+#'@param package_metadata package metadata retrieved with \code{\link{get_package_metadata}} 
+#'
+#'@return a one-element, numeric vector containing a count of how many packages depend
+#'on the package \code{package_metadata} covers.
+#'
+#'@export
+links_from <- function(package_metadata){
+  return(package_metadata$revdeps)
 }
