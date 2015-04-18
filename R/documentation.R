@@ -40,3 +40,11 @@ check_vignettes <- function(package_directory){
 check_roxygen <- function(package_directory){
   check_content(package_directory, "@export")
 }
+
+check_versioning <- function(package_metadata){
+  
+}
+
+check_changelog <- function(package_metadata){
+  
+}
