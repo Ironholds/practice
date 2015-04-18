@@ -18,7 +18,8 @@
 get_package_source <- function(package_name){
   
   local_temp <- tempdir()
-  dl_link <- download.packages(package_name, destdir = local_temp, type = "source")[1,2]
+  dl_link <- download.packages(package_name, destdir = local_temp, type = "source",
+                               quiet = TRUE)[1,2]
   untar(file.path(dl_link), exdir = local_temp)
   file.remove(dl_link)
   
@@ -53,7 +54,7 @@ get_package_metadata <- function(package_name){
   results <- GET(paste0("http://crandb.r-pkg.org/", package_name, "/all"),
                  user_agent("practice - https://github.com/Ironholds/practice"))
   results <- content(results, as = "parsed")
-  if(length(names(results)) == 2 & names(results) == c("error","reason")){
+  if(length(names(results)) == 2 && names(results) == c("error","reason")){
     stop(results$reason)
   }
   return(results)
