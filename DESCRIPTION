@@ -11,6 +11,5 @@ Description: Modern software engineering expects libraries or packages to come w
              as extracting other metadata related to the package's content and the conventions it follows.
 License: MIT + file LICENSE
 Imports: httr,
-         jsonlite,
-         magrittr
+         jsonlite
 Suggests: testthat

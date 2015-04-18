@@ -46,17 +46,17 @@ remove_package_source <- function(package_directory){
 #'@param package_name the name of a package, which can be retrieved with
 #'\code{\link{get_package_names}}
 #'
-#'@importFrom magrittr %>%
 #'@importFrom httr GET content user_agent
-#'@importFrom jsonlite prettify fromJSON
+#'@importFrom jsonlite fromJSON
 #'@export
 get_package_metadata <- function(package_name){
-  paste0("http://crandb.r-pkg.org/", package_name, "/all") %>%
-    GET(user_agent("practice - https://github.com/Ironholds/practice")) %>%
-    content(as = "text", encoding = "UTF-8") %>%
-    prettify() %>%
-    fromJSON() %>%
-    return
+  results <- GET(paste0("http://crandb.r-pkg.org/", package_name, "/all"),
+                 user_agent("practice - https://github.com/Ironholds/practice"))
+  results <- content(results, as = "parsed")
+  if(length(names(results)) == 2 & names(results) == c("error","reason")){
+    stop(results$reason)
+  }
+  return(results)
 }
 
 #'@title get the names of available packages
