@@ -76,6 +76,21 @@ check_versioning <- function(package_metadata){
   grepl(x = package_metadata$latest, pattern = "\\d{1,}\\.\\d{1,}\\.\\d{1,}")
 }
 
-check_changelog <- function(package_metadata){
-  
+#'@title identify if the package contains a changelog
+#'@description searches through the downloaded source code
+#'of a package trying to identify if it has something that
+#'looks like a log of changes between versions.
+#'
+#'@param package_directory
+#'
+#'@return TRUE if the package has something that looks
+#'like a changelog, FALSE otherwise.
+#'
+#'@export
+check_changelog <- function(package_directory){
+  files <- list.files(pattern = "(change|news)", ignore.case = TRUE)
+  if(length(files)){
+    return(TRUE)
+  }
+  return(FALSE)
 }
