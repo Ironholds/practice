@@ -34,5 +34,8 @@ links_to <- function(package_metadata, with_versions = FALSE){
 #'
 #'@export
 links_from <- function(package_metadata){
+  if(is.null(package_metadata$revdeps)){
+    return(0)
+  }
   return(package_metadata$revdeps)
 }

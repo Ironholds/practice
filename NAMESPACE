@@ -3,6 +3,7 @@
 export(check_package_naming)
 export(check_testing)
 export(check_upstream_repository)
+export(get_license)
 export(get_package_metadata)
 export(get_package_names)
 export(get_package_source)
