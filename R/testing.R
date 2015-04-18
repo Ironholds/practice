@@ -25,22 +25,6 @@ check_testing <- function(package_directory){
   return(output)
 }
 
-#This actually checks the content of all .R files to see if a regex is matched or not.
-check_content <- function(package_directory, regex, ...){
-  
-  files <- list.files(path = package_directory, pattern = "\\.R$", full.names = TRUE,
-                      recursive = TRUE, ignore.case = TRUE)
-  output <- FALSE
-  for(file in files){
-    content <- readChar(file, file.info(file)$size)
-    if(grepl(x = content, pattern = "((library|require)\\(RUnit\\)|RUnit::)", ...)){
-      output <- TRUE
-      break
-    }
-  }
-  return(output)
-}
-
 #'@title identifies if a package indicates it has a versioned repository for
 #'upstream patches or bug reports.
 #'@description A crucial element of good software is software that users can patch
