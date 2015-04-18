@@ -28,8 +28,4 @@ check_package_naming(get_package_metadata("ggplot2"))
 #gridExtra, not so much
 check_package_naming(get_package_metadata("gridExtra"))
 }
-\seealso{
-\code{\link{check_internal_naming}} for identifying if a consistent naming convention
-is used for functions within the package, and if so, what it is.
-}
 

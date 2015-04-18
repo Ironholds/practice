@@ -18,11 +18,15 @@ test_that("Package metadata can be retrieved", {
 })
 
 test_that("Package content can be retrieved", {
-  result <<- get_package_source("ggplot2")
+  result <- get_package_source("A3")
   expect_true(is.vector(result, "character"))
   expect_that(length(result), equals(1))
+  remove_package_source(result)
+  
 })
 
 test_that("Package content can be deleted", {
+  result <- get_package_source("A3")
   remove_package_source(result)
+  expect_that(file.exists(result), equals(FALSE))
 })

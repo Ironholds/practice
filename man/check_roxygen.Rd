@@ -29,9 +29,11 @@ at least once - there wouldn't actually be any R it provides if
 not.)
 }
 \examples{
+\dontrun{
 #Identify if ggplot2 uses roxygen
 file_location <- get_package_source("ggplot2")
 check_roxygen(file_location)
 remove_package_source(file_location)
+}
 }
 

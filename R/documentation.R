@@ -47,11 +47,12 @@ check_vignettes <- function(package_directory){
 #'roxygen2 tags are found in the source code.
 #'
 #'@examples
+#'\dontrun{
 #'#Identify if ggplot2 uses roxygen
 #'file_location <- get_package_source("ggplot2")
 #'check_roxygen(file_location)
 #'remove_package_source(file_location)
-#'
+#'}
 #'@export
 check_roxygen <- function(package_directory){
   check_content(package_directory, "@export")

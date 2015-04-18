@@ -18,9 +18,6 @@
 #'#gridExtra, not so much
 #'check_package_naming(get_package_metadata("gridExtra"))
 #'
-#'@seealso
-#'\code{\link{check_internal_naming}} for identifying if a consistent naming convention
-#'is used for functions within the package, and if so, what it is.
 #'@export
 check_package_naming <- function(package_metadata){
   
@@ -42,8 +39,4 @@ check_package_naming <- function(package_metadata){
   }
   
   return(output)
-}
-
-check_internal_naming <- function(package_directory){
-  
 }
