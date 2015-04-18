@@ -10,6 +10,10 @@ check_roxygen(package_directory)
 \item{package_directory}{the full path to the directory, retrieved
 with \code{\link{get_package_source}}.}
 }
+\value{
+either TRUE or FALSE, depending on whether or not
+roxygen2 tags are found in the source code.
+}
 \description{
 identifies if a package's documentation uses
 roxygen2's inline documentation, by scanning the R files

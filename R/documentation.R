@@ -30,6 +30,9 @@ check_vignettes <- function(package_directory){
 #'at least once - there wouldn't actually be any R it provides if
 #'not.)
 #'
+#'@return either TRUE or FALSE, depending on whether or not
+#'roxygen2 tags are found in the source code.
+#'
 #'@examples
 #'#Identify if ggplot2 uses roxygen
 #'file_location <- get_package_source("ggplot2")
