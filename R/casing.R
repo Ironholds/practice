@@ -10,6 +10,14 @@
 #'and "alphanumeric" (TRUE for package names that exclusively contain alphanumeric characters,
 #'and FALSE for package names that contain special characters.)
 #'
+#'@examples
+#'#Identify if dplyr is all lower-case (yep) and only contains alphanumeric characters
+#'#(also yep)
+#'check_package_naming(get_package_metadata("ggplot2"))
+#'
+#'#gridExtra, not so much
+#'check_package_naming(get_package_metadata("gridExtra"))
+#'
 #'@seealso
 #'\code{\link{check_internal_naming}} for identifying if a consistent naming convention
 #'is used for functions within the package, and if so, what it is.

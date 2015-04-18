@@ -20,6 +20,14 @@ and Like.THIS and in a whole host of formats. \code{check_package_naming}
 consumes package metadata and identifies the format a package's name follows,
 using the convention described below.
 }
+\examples{
+#Identify if dplyr is all lower-case (yep) and only contains alphanumeric characters
+#(also yep)
+check_package_naming(get_package_metadata("ggplot2"))
+
+#gridExtra, not so much
+check_package_naming(get_package_metadata("gridExtra"))
+}
 \seealso{
 \code{\link{check_internal_naming}} for identifying if a consistent naming convention
 is used for functions within the package, and if so, what it is.
