@@ -1,12 +1,5 @@
 context("Test that package names, metadata and content can be retrieved")
 
-#Set repo, since this isn't done by default and get_* tests will otherwise fail.
-local({
-  repos <- getOption("repos")
-  repos["CRAN"] <- "http://cran.rstudio.com"
-  options(repos = repos)
-})
-
 test_that("Package names can be retrieved", {
   package_names <- get_package_names()
   expect_true(is.vector(package_names, "character"))
