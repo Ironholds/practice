@@ -6,7 +6,7 @@ check_content <- function(package_directory, regex, ...){
   output <- FALSE
   for(file in files){
     content <- readChar(file, file.info(file)$size)
-    if(grepl(x = content, pattern = "regex", ...)){
+    if(grepl(x = content, pattern = regex, ...)){
       output <- TRUE
       break
     }
