@@ -41,8 +41,33 @@ check_roxygen <- function(package_directory){
   check_content(package_directory, "@export")
 }
 
+#'@title identify if a package is semantically versioned
+#'@description take a package's metadata and identify
+#'from it whether the package follows the "semantic versioning"
+#'convention, at least in theory. See details for, well,
+#'details.
+#'
+#'@details \href{http://semver.org/}{semantic versioning}
+#'is a convention for identifying version numbers of a codebase
+#'in a way that distinguishes major changes, minor changes
+#'and patches by using three period-separated
+#'groups of digits. As an example, 2.0.0 is semantically
+#'versioned; 2.0 is not.
+#'
+#'@param package_metadata package metadata retrieved with \code{\link{get_package_metadata}}.
+#'
+#'@return TRUE if the package does follow the semantic versioning standard,
+#'FALSE if not.
+#'
+#'@examples
+#'#Identify if ggplot2 is semantically versioned (it is)
+#'ggplot_metadata <- get_package_metadata("ggplot2")
+#'check_versioning(ggplot_metadata)
+#'
+#'#Identify if A3 is semantically versioned (it isn't)
+#'@export
 check_versioning <- function(package_metadata){
-  
+  grepl(x = package_metadata$latest, pattern = "\\d{1,}\\.\\d{1,}\\.\\d{1,}")
 }
 
 check_changelog <- function(package_metadata){
