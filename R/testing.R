@@ -1,15 +1,44 @@
+#'@title identify a package's unit testing framework, if it has one
+#'@description takes a downloaded package and identifies if the package
+#'has a unit testing framework, or anything indicative of automated testing.
+#'
+#'@param package_directory the full path to the directory, retrieved
+#'with \code{\link{get_package_source}}.
+#'
+#'@return either "None" (no recogniseable tests), "RUnit" (RUnit-based
+#'tests), "testthat" (testthat-based tests) or "Other" (some form
+#'of hand-rolled testing).
+#'
+#'@export
 check_testing <- function(package_directory){
   
+  output <- "None"
+  
+  #Check for RUnit, testthat first
+  if(check_content(package_directory, "((library|require)\\(RUnit\\)|RUnit::)")){
+    output <- "RUnit"
+  } else if(check_content(package_directory, "((library|require)\\(testthat\\)|testthat::)")){
+    output <- "testthat"
+  } else if(grepl(x = list.files(), pattern = "tests", fixed = TRUE)){
+    output <- "Other"
+  }
+  return(output)
 }
 
-#'Internal function specifically for checking for runit
-check_runit <- function(package_directory){
+#This actually checks the content of all .R files to see if a regex is matched or not.
+check_content <- function(package_directory, regex, ...){
   
-}
-
-#Internal function for testthat. This is easier logic.
-check_testthat <- function(package_directory){
-  
+  files <- list.files(path = package_directory, pattern = "\\.R$", full.names = TRUE,
+                      recursive = TRUE, ignore.case = TRUE)
+  output <- FALSE
+  for(file in files){
+    content <- readChar(file, file.info(file)$size)
+    if(grepl(x = content, pattern = "((library|require)\\(RUnit\\)|RUnit::)", ...)){
+      output <- TRUE
+      break
+    }
+  }
+  return(output)
 }
 
 #'@title identifies if a package indicates it has a versioned repository for
