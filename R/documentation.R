@@ -1,3 +1,16 @@
+#'@title identify the presence and source of package
+#'vignettes.
+#'@description identify how a package's vignettes are built, if it has
+#'vignettes.
+#'
+#'@param package_directory the directory the package
+#'source code lives in, returned from \code{\link{get_package_source}}
+#'
+#'@return "No vignettes" if no vignettes are found, "Sweave" if
+#'traditional, Sweave-built vignettes are found, and "Knitr"
+#'if knitr-built vignettes are found.
+#'
+#'@export
 check_vignettes <- function(package_directory){
   vignettes <- "No vignettes"
   files <- list.files(file.path(package_directory, "vignettes"))
@@ -81,7 +94,8 @@ check_versioning <- function(package_metadata){
 #'of a package trying to identify if it has something that
 #'looks like a log of changes between versions.
 #'
-#'@param package_directory
+#'@param package_directory the directory the package
+#'source code lives in, returned from \code{\link{get_package_source}}
 #'
 #'@return TRUE if the package has something that looks
 #'like a changelog, FALSE otherwise.
