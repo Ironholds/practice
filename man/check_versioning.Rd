@@ -32,6 +32,8 @@ versioned; 2.0 is not.
 ggplot_metadata <- get_package_metadata("ggplot2")
 check_versioning(ggplot_metadata)
 
-#Identify if A3 is semantically versioned (it isn't)
+#Identify if fbRanks is semantically versioned (it isn't)
+fbranks_metadata <- get_package_metadata("fbRanks")
+check_versioning(fbranks_metadata)
 }
 

@@ -67,7 +67,10 @@ check_roxygen <- function(package_directory){
 #'ggplot_metadata <- get_package_metadata("ggplot2")
 #'check_versioning(ggplot_metadata)
 #'
-#'#Identify if A3 is semantically versioned (it isn't)
+#'#Identify if fbRanks is semantically versioned (it isn't)
+#'fbranks_metadata <- get_package_metadata("fbRanks")
+#'check_versioning(fbranks_metadata)
+#'
 #'@export
 check_versioning <- function(package_metadata){
   grepl(x = package_metadata$latest, pattern = "\\d{1,}\\.\\d{1,}\\.\\d{1,}")
