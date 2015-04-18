@@ -1,75 +1,77 @@
-#Scrape the base CRAN url (stored as r_base_url in config.R) for URLs to each package. The data we're
-#looking for /should/ be available through available.packages(), but I'll be damned if I can work out
-#how to get it to give me actual, non-standard fields like BugReports or URLs.
-get_package_data <- function(){
+#Uses Gabor's awesome API to grab package data in an actually-human format.
+get_package <- function(package){
+  paste0("http://crandb.r-pkg.org/", package, "/all") %>%
+    httr::GET() %>%
+    httr::content(as = "text", encoding = "UTF-8") %>%
+    jsonlite::prettify() %>%
+    fromJSON() %>%
+    return
+}
+
+#Actually extract the data and do interesting things to it.
+extract_data <- function(package_data){
+  
+  #Create output object and run the "simpler" analysis.
+  output <- list(package = package_data$name, #Package name
+                 revision_count = length(package_data$versions)) #How many versions has it gone through?
+  
+  #Semantic versioning (this is easy, but not as easy as the above):
+  output$is_semantically_versioned <- grepl(x = package_data$latest, pattern = "\\d{1,}\\.\\d{1,}\\.", perl = TRUE)
+  
+  #Earliest and latest release dates. The metacran db actually returns with %Z, but (1) you can't
+  #use those with strptime and (2) it looks like UTC is the default for the actual timeline dates,
+  #so! (Also, worst-case is it's a day off, and it seems improbably that that would bias things when
+  #we're looking at things on an annual basis, unless the birthday paradox is rearing its head.)
+  releases <- strptime(x = unname(unlist(package_data$timeline)), "%Y-%m-%dT%H:%M:%S", tz = "UTC")
+  output$earliest_release_date <- lubridate::year(as.Date(min(releases)))
+  output$latest_release_date <- lubridate::year(as.Date(max(releases)))
+  
+  #What packages are linked? We can use this (in the other direction) as a metric for
+  #package importance.
+  output$linked_packages <- linked_packages(package_data)
+  
+  #What possible repository locations are there? Which one (if any) looks like an actual repo?
+  #What kind of repo? What about email addresses?
+  output$repository <- repository_type(package_data)
+  
+  #Is it orphaned? Kindly CRAN identifies this by changing the 'Maintainer' field to
+  #'Orphaned', so we can just do a comparison.
+  output$orphaned <- (last_release$Maintainer == "ORPHANED")
+  
+  #Does it specify an R version? IOW, is R in the depends, and if so, does it have * as
+  #a version number?
+  output$specifies_r <- (!is.null(last_release$Depends$R) & !last_release$Depends$R == "*")
+  
+  #Identify package name casing
+  output$package_name_case <- package_casing(package_data$name)
+  
+  #And now for the manky bits; identifying test, vignette and roxygenation presence,
+  #along with whether there's a changelog and whether there's consistency in the internal
+  #naming scheme used by functions.
+  #This actually requires additional calls. But it's REALLY cool to have that data.
+  package_address <- get_package_source(package_data$name)
+  output$roxygen <- has_roxygen(package_address)
+  output$tests <- testing_framework(package_address)
+  output$vignettes <- vignette_usage(package_address)
+  output$changelog <- changelog(package_address)
+  output$internal_casing <- check_casing(package_address)
+  system(paste("rm -rf", package_address))
+  
+}
+
+
   package_names <- as.data.frame(available.packages(), stringsAsFactors = FALSE)$Package
   package_urls <- paste0("http://cran.r-project.org/web/packages/", package_names, "/index.html")
   return(list(package_urls,package_names))
 }
 
-#Retrieve the content; for each package name and URL, go to the index page, scrape the data described,
-#turn it into a key-value pair data.frame, associate the package name and return, before binding
-#the whole thing together into one big data.frame. Then clean it a bit, of course, to remove
-#things we don't care about and sanitise key names, and strip out horrible hideous things
-#like newlines that totally ruin everything for everyone.
-get_content <- function(package_data){
-  #Get the actual content
-  content <- mapply(function(url, name){
-    page <- html(url, user_agent(practice_ua))
-    content <- html_nodes(page, "td")
-    data <- html_text(content)
-    results <- as.data.frame(matrix(data, nrow = length(data)/2, byrow = TRUE), stringsAsFactors = FALSE)
-    names(results) <- c("field","value")
-    results$package <- name
-    return(results)
-  }, package_data[[1]], package_data[[2]], SIMPLIFY = FALSE)
-  content <- do.call("rbind",content)
-  
-  #Remove crud from keys and values, and keys we don't want
-  rownames(content) <- NULL
-  content$field <- gsub(x = content$field, pattern = "(\\W|:)", replacement = "", perl = TRUE)
-  content$value <- gsub(x = content$value, pattern = '(\n|\t|\\")', replacement = "")
-  content <- content[!content$field %in% unwanted_fields,]
-  write.table(content, file = file.path(getwd(),"Datasets","raw_data.tsv"), quote = TRUE, sep = "\t",
-              row.names = FALSE)
-  return(spread(content, key = "field", value = "value"))
+retrieve <- function(){
+  as.data.frame(available.packages(), stringsAsFactors = FALSE)$Package %>%
+    lapply(get_package) %>%
+    lapply(extract_data) %>%
+    group_data %>%
+    return
 }
-
-#Takes the spread version of the data.frame now stored in raw_data.tsv and turns it into a list of values
-#calculated from each field.
-parse_content <- function(content){
-  
-  #First, naming conventions
-  package_names <- content$package
-  package_names[!tolower(package_names) == package_names] <- "Mixed Case"
-  package_names[grepl(x = package_names, pattern = ".", fixed = TRUE)] <- "Non-Alphanumeric"
-  package_names[!package_names %in% c("Mixed Case", "Non-Alphanumeric")] <- "Lower Case"
-  
-  #Next, author count
-  authors <- content$Author
-  authors <- gsub(x = authors, pattern = "(<.*?>|\\[.*?\\])", replacement = "", perl = TRUE)
-  authors <- strsplit(authors, split = "( and |,)")
-  authors <- unlist(lapply(authors, length))
-  
-  #Repos
-  links <- content$BugReports
-  links[is.na(links)] <- content$URL[is.na(links)]
-  links[grepl(x = links, pattern = "github", fixed = TRUE)] <- "GitHub"
-  links[grepl(x = links, pattern = "r-?forge", ignore.case = TRUE)] <- "RForge"
-  links[grepl(x = links, pattern = "bitbucket", fixed = TRUE)] <- "BitBucket"
-  links[is.na(links)] <- "None"
-  links[!links %in% c("GitHub","RForge","BitBucket","None")] <- "Other"
-  
-  #Unit tests
-  has_tests <- content$Suggests
-  has_tests[grepl(x = has_tests, pattern = "RUnit")] <- "RUnit"
-  has_tests[grepl(x = content$Imports, pattern = "RUnit")] <- "RUnit"
-  has_tests[grepl(x = content$Depends, pattern = "RUnit")] <- "RUnit"
-  has_tests[grepl(x = has_tests, pattern = "testthat")] <- "testthat"
-  has_tests[grepl(x = content$Imports, pattern = "testthat")] <- "testthat"
-  has_tests[grepl(x = content$Depends, pattern = "testthat")] <- "testthat"
-  has_tests[!has_tests %in% c("RUnit","testthat")] <- "None/Other"
-  
   #Licensing
   licenses <- content$License
   licenses[licenses == ""] <- "None"
@@ -78,68 +80,3 @@ parse_content <- function(content){
   licenses <- gsub(x = licenses, pattern = " $", replacement = "", perl = TRUE)
   licenses[licenses == "file LICENSE"] <- "Unknown"
   
-  #Orphaned
-  is_orphaned <- logical(length(content$Maintainer))
-  is_orphaned[content$Maintainer == "ORPHANED"] <- TRUE
-  
-  #Vignettes
-  has_vignettes <- logical(length(content$Vignettes))
-  has_vignettes[!is.na(content$Vignettes)] <- TRUE
-  
-  #Roxygen2
-  is_roxygenised <- lapply(content$package, function(package){
-    local_temp <- tempdir()
-    untar(file.path(download.packages(package, destdir = local_temp)[1,2]))
-    result <- grepl(x = readLines(con = file(file.path(getwd(),package,"NAMESPACE")), n = 1),
-                    pattern = "Generated by roxygen2", fixed = TRUE)
-    system(paste("rm -rf", file.path(getwd(),package)))
-    return(result)
-  })
-  
-  #Handle failures
-  is_roxygenised <- unlist(lapply(is_roxygenised, function(x){
-    ifelse(length(x) == 0, return(FALSE), return(x))
-  }))
-  
-  #Semantic versioning
-  semantically_versioned <- grepl(x = content$Version, pattern = "\\d{1,}\\.\\d{1,}\\.", perl = TRUE)
-  
-  #Identify year of initial creation
-  year_created <- unlist(lapply(content$package, function(package){
-    try({
-      archive_content <- html(paste0("http://cran.r-project.org/src/contrib/Archive/", package))
-    }, silent = TRUE)
-    if(exists("archive_content")){
-      nodes <- html_nodes(archive_content, "td")
-      dates <- unlist(mapply(function(node, node_tag){
-        if(is.null(node)){
-          return(NULL)
-        }
-        date <- strptime(html_text(node), format = "%e-%b-%Y %H:%M   ", tz = "UTC")
-        if(is.na(date)){
-          return(NULL)
-        }
-        return(as.character(substr(date,0,10)))
-      
-      }, node = nodes, node_tag = html_attrs(nodes)))
-      if(length(dates) == 0){
-        return(NA)
-      } else {
-        return(as.character(min(as.Date(dates))))
-      }
-    }
-    return(NA)
-  }))
-  year_created[is.na(year_created)] <- content$Published[is.na(year_created)]
-  year_created <- lubridate::year(as.Date(year_created))
-  
-  #Check if it specifies an R version
-  version <- grepl(x = content$Depends, pattern = "R \\(")
-  results <- data.frame(package = content$package, first_published = year_created, naming_convention = package_names,
-                        author_count = authors, is_orphaned = is_orphaned, public_repository = links,
-                        has_tests = has_tests, is_versioned = semantically_versioned, specifies_r_version = version,
-                        is_roxygenised = is_roxygenised, copyright_license = licenses, stringsAsFactors = FALSE)
-  write.table(results, file = file.path(getwd(), "Datasets", "parsed_package_data.tsv"), sep = "\t", row.names = FALSE,
-                                        quote = TRUE)
-  return(results)
-}

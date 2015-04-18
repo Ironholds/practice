@@ -2,6 +2,16 @@ check_testing <- function(package_directory){
   
 }
 
+#'Internal function specifically for checking for runit
+check_runit <- function(package_directory){
+  
+}
+
+#Internal function for testthat. This is easier logic.
+check_testthat <- function(package_directory){
+  
+}
+
 #'@title identifies if a package indicates it has a versioned repository for
 #'upstream patches or bug reports.
 #'@description A crucial element of good software is software that users can patch
