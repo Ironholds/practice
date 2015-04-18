@@ -1,12 +1,15 @@
 Package: practice
 Type: Package
-Title: What the package does (short line)
-Version: 1.0
+Title: Tools for identifying whether R packages follow common software engineering conventions
+Version: 0.1.0
 Date: 2015-04-14
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
+Author: Oliver Keyes
+Maintainer: Oliver Keyes <ironholds@gmail.com>
+Description: Modern software engineering expects libraries or packages to come with unit tests,
+             full documentation and upstream repositories so that bugs and patches can be cleanly provided.
+             Practice contains a set of tools for identifying if a package follows these conventions, as well
+             as extracting other metadata related to the package's content and the conventions it follows.
+License: MIT + file LICENSE
 Imports: httr,
          jsonlite,
          magrittr
