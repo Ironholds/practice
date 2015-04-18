@@ -1,4 +1,10 @@
 context("Test that package names, metadata and content can be retrieved")
+local({
+  repos <- getOption("repos")
+  repos["CRAN"] <- "http://cran.rstudio.com"
+  options(repos = repos)
+})
+
 
 test_that("Package names can be retrieved", {
   package_names <- get_package_names()
