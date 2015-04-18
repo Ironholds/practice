@@ -18,7 +18,7 @@
 get_package_source <- function(package_name){
   
   local_temp <- tempdir()
-  dl_link <- download.packages(package_name, destdir = local_temp)[1,2]
+  dl_link <- download.packages(package_name, destdir = local_temp, type = "source")[1,2]
   untar(file.path(dl_link), exdir = local_temp)
   file.remove(dl_link)
   
