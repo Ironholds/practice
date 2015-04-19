@@ -19,4 +19,16 @@ searches through the downloaded source code
 of a package trying to identify if it has something that
 looks like a log of changes between versions.
 }
+\details{
+changelogs - logs of what changes in a package
+between versions, be that bug fixes, new features or alterations
+to how existing features function - are common to R packages
+and collections of code generally.
+
+With R packages, they are normally stored as "NEWS"
+or "CHANGELOG" files. \code{check_changelog} checks
+for the presence of a changelog by seeing if there are any files
+in the root directory of the package source code that match
+the case-insensitive regular expression "(change|news)".
+}
 

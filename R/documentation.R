@@ -98,6 +98,17 @@ check_versioning <- function(package_metadata){
 #'@param package_directory the directory the package
 #'source code lives in, returned from \code{\link{get_package_source}}
 #'
+#'@details changelogs - logs of what changes in a package
+#'between versions, be that bug fixes, new features or alterations
+#'to how existing features function - are common to R packages
+#'and collections of code generally.
+#'
+#'With R packages, they are normally stored as "NEWS"
+#'or "CHANGELOG" files. \code{check_changelog} checks
+#'for the presence of a changelog by seeing if there are any files
+#'in the root directory of the package source code that match
+#'the case-insensitive regular expression "(change|news)".
+#'
 #'@return TRUE if the package has something that looks
 #'like a changelog, FALSE otherwise.
 #'
