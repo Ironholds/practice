@@ -112,6 +112,16 @@ check_versioning <- function(package_metadata){
 #'@return TRUE if the package has something that looks
 #'like a changelog, FALSE otherwise.
 #'
+#'@examples
+#'\dontrun{
+#'#Does A3 have a changelog? (yes)
+#'file_location <- get_package_source("A3")
+#'result <- check_changelog(file_location)
+#'
+#'#What about "fortunes"? (no)
+#'file_location <- get_package_source("fortunes")
+#'result <- check_changelog(file_location)
+#'}
 #'@export
 check_changelog <- function(package_directory){
   files <- list.files(package_directory, pattern = "(change|news)", ignore.case = TRUE)

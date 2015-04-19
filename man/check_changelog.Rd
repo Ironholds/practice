@@ -31,4 +31,15 @@ for the presence of a changelog by seeing if there are any files
 in the root directory of the package source code that match
 the case-insensitive regular expression "(change|news)".
 }
+\examples{
+\dontrun{
+#Does A3 have a changelog? (yes)
+file_location <- get_package_source("A3")
+result <- check_changelog(file_location)
+
+#What about "fortunes"? (no)
+file_location <- get_package_source("fortunes")
+result <- check_changelog(file_location)
+}
+}
 
