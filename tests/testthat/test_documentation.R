@@ -28,3 +28,24 @@ test_that("Non-semantically versioned packages are identified as such",{
   metadata <- get_package_metadata("fbRanks")
   expect_that(check_versioning(metadata), equals(FALSE))
 })
+
+test_that("Packages with Knitr-built vignettes are identified",{
+  file_location <- get_package_source("urltools")
+  result <- check_vignettes(file_location)
+  remove_package_source(file_location)
+  expect_that(result, equals("Knitr"))
+})
+
+test_that("Packages with Sweave-built vignettes are identified",{
+  file_location <- get_package_source("fortunes")
+  result <- check_vignettes(file_location)
+  remove_package_source(file_location)
+  expect_that(result, equals("Sweave"))
+})
+
+test_that("Packages with no vignettes are identified",{
+  file_location <- get_package_source("A3")
+  result <- check_vignettes(file_location)
+  remove_package_source(file_location)
+  expect_that(result, equals("No vignettes"))
+})
