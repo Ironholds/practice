@@ -103,7 +103,7 @@ check_versioning <- function(package_metadata){
 #'
 #'@export
 check_changelog <- function(package_directory){
-  files <- list.files(pattern = "(change|news)", ignore.case = TRUE)
+  files <- list.files(package_directory, pattern = "(change|news)", ignore.case = TRUE)
   if(length(files)){
     return(TRUE)
   }

@@ -49,3 +49,17 @@ test_that("Packages with no vignettes are identified",{
   remove_package_source(file_location)
   expect_that(result, equals("No vignettes"))
 })
+
+test_that("Packages with changelogs are identified",{
+  file_location <- get_package_source("A3")
+  result <- check_changelog(file_location)
+  remove_package_source(file_location)
+  expect_that(result, equals(TRUE))
+})
+
+test_that("Packages without changelogs are identified",{
+  file_location <- get_package_source("fortunes")
+  result <- check_changelog(file_location)
+  remove_package_source(file_location)
+  expect_that(result, equals(FALSE))
+})
