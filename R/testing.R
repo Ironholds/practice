@@ -5,10 +5,38 @@
 #'@param package_directory the full path to the directory, retrieved
 #'with \code{\link{get_package_source}}.
 #'
+#'@details identifying if a package has unit tests (and what form
+#'those tests take) is a pain because the frameworks can be stored
+#'in a lot of different ways.
+#'RUnit can exist in a dedicated "tests" directory, or embedded in
+#'the actual package's R code. testthat tends to standardise on a
+#'"test" directory. And, of course, informal tests outside of these
+#'frameworks can look like pretty much anything.
+#'
+#'\code{check_testing} hunts through the .R files in a package
+#'for calls to load RUnit; if some are found, the tests are RUnit-based.
+#'The same test with "testthat" is used to determine if tests are
+#'testthat-based - and if neither are found, the presence of a top-level
+#'directory called "tests" leads to "Other".
+#'
 #'@return either "None" (no recogniseable tests), "RUnit" (RUnit-based
 #'tests), "testthat" (testthat-based tests) or "Other" (some form
 #'of hand-rolled testing).
 #'
+#'@examples
+#'\dontrun{
+#'#urltools uses testthat
+#'file_location <- get_package_source("urltools")
+#'check_testing(file_location)
+#'
+#'#blme uses RUnit
+#'file_location <- get_package_source("blme")
+#'check_testing(file_location)
+#'
+#'#fortunes has no tests.
+#'file_location <- get_package_source("fortunes")
+#'check_testing(file_location)
+#'}
 #'@export
 check_testing <- function(package_directory){
   
@@ -19,7 +47,7 @@ check_testing <- function(package_directory){
     output <- "RUnit"
   } else if(check_content(package_directory, "((library|require)\\(testthat\\)|testthat::)")){
     output <- "testthat"
-  } else if(grepl(x = list.files(), pattern = "tests", fixed = TRUE)){
+  } else if(length(list.dirs(path = package_directory, full.names = FALSE, recursive = FALSE))){
     output <- "Other"
   }
   return(output)
