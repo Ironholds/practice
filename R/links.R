@@ -2,7 +2,9 @@
 #'@description this identifies unique packages that are linked to by the package
 #'that is being evaluated, in the context of dependencies, suggests and LinkingTo fields.
 #'
-#'@param package_metadata package metadata retrieved with \code{\link{get_package_metadata}} 
+#'@param package_metadata package metadata retrieved with \code{\link{get_package_metadata}},
+#'or the name of a package (in which case \code{get_package_metadata} will be called
+#'internally).
 #'
 #'@param with_versions whether to return the version number (or lack thereof) as well as the
 #'mentioned package's name. Set to FALSE by default.
@@ -12,6 +14,7 @@
 #'
 #'@export
 links_to <- function(package_metadata, with_versions = FALSE){
+  package_metadata <- check_metadata(package_metadata)
   last_release <- package_metadata$versions[[length(package_metadata$versions)]]
   
   if(with_versions){
@@ -27,13 +30,19 @@ links_to <- function(package_metadata, with_versions = FALSE){
 #'@description consumes packageX's metadata and returns a count
 #'of how many packages depend on it.
 #'
-#'@param package_metadata package metadata retrieved with \code{\link{get_package_metadata}} 
+#'@param package_metadata package metadata retrieved with \code{\link{get_package_metadata}},
+#'or the name of a package (in which case \code{get_package_metadata} will be called
+#'internally).
 #'
+#'@details we don't (currently) have more than a count of how many reverse depends,
+#'imports, suggests etc a package has, otherwise we'd be mimicking the functionality
+#'of \code{\link{links_to}}.
 #'@return a one-element, numeric vector containing a count of how many packages depend
 #'on the package \code{package_metadata} covers.
 #'
 #'@export
 links_from <- function(package_metadata){
+  package_metadata <- check_metadata(package_metadata)
   if(is.null(package_metadata$revdeps)){
     return(0)
   }

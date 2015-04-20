@@ -8,7 +8,7 @@ check_changelog(package_directory)
 }
 \arguments{
 \item{package_directory}{the directory the package
-source code lives in, returned from \code{\link{get_package_source}}}
+source code lives in, returned from \code{\link{get_package_source}}.}
 }
 \value{
 TRUE if the package has something that looks

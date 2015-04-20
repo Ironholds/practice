@@ -7,7 +7,9 @@
 links_from(package_metadata)
 }
 \arguments{
-\item{package_metadata}{package metadata retrieved with \code{\link{get_package_metadata}}}
+\item{package_metadata}{package metadata retrieved with \code{\link{get_package_metadata}},
+or the name of a package (in which case \code{get_package_metadata} will be called
+internally).}
 }
 \value{
 a one-element, numeric vector containing a count of how many packages depend
@@ -16,5 +18,10 @@ on the package \code{package_metadata} covers.
 \description{
 consumes packageX's metadata and returns a count
 of how many packages depend on it.
+}
+\details{
+we don't (currently) have more than a count of how many reverse depends,
+imports, suggests etc a package has, otherwise we'd be mimicking the functionality
+of \code{\link{links_to}}.
 }
 

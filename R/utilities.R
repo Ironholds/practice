@@ -13,3 +13,11 @@ check_content <- function(package_directory, regex, ...){
   }
   return(output)
 }
+
+#This identifies if the input arg is metadata and goes to grab it if not. Or, tries to.
+check_metadata <- function(metadata){
+  if(!is.list(metadata)){
+    metadata <- get_package_metadata(metadata)
+  }
+  return(metadata)
+}

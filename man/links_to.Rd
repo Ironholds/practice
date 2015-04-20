@@ -7,7 +7,9 @@
 links_to(package_metadata, with_versions = FALSE)
 }
 \arguments{
-\item{package_metadata}{package metadata retrieved with \code{\link{get_package_metadata}}}
+\item{package_metadata}{package metadata retrieved with \code{\link{get_package_metadata}},
+or the name of a package (in which case \code{get_package_metadata} will be called
+internally).}
 
 \item{with_versions}{whether to return the version number (or lack thereof) as well as the
 mentioned package's name. Set to FALSE by default.}

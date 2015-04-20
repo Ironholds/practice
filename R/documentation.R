@@ -151,7 +151,7 @@ check_versioning <- function(package_metadata){
 #'looks like a log of changes between versions.
 #'
 #'@param package_directory the directory the package
-#'source code lives in, returned from \code{\link{get_package_source}}
+#'source code lives in, returned from \code{\link{get_package_source}}.
 #'
 #'@details changelogs - logs of what changes in a package
 #'between versions, be that bug fixes, new features or alterations
