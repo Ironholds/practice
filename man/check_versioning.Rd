@@ -26,6 +26,10 @@ in a way that distinguishes major changes, minor changes
 and patches by using three period-separated
 groups of digits. As an example, 2.0.0 is semantically
 versioned; 2.0 is not.
+
+\code{check_versioning} takes the latest package version
+number found in package_metadata and identifies whether
+it follows this format (TRUE) or does not (FALSE).
 }
 \examples{
 #Identify if ggplot2 is semantically versioned (it is)
@@ -35,5 +39,11 @@ check_versioning(ggplot_metadata)
 #Identify if fbRanks is semantically versioned (it isn't)
 fbranks_metadata <- get_package_metadata("fbRanks")
 check_versioning(fbranks_metadata)
+}
+\seealso{
+\code{\link{check_vignettes}} to identify if a package has vignettes
+and how they are built, \code{\link{check_roxygen}} to see if inline
+documentation is built with roxygen2, and the package index for more
+tests and checks.
 }
 

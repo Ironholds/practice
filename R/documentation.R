@@ -91,6 +91,13 @@ check_vignettes <- function(package_directory){
 #'check_roxygen(file_location)
 #'remove_package_source(file_location)
 #'}
+#'
+#'@seealso
+#'\code{\link{check_vignettes}} to identify if a package has vignettes
+#'and how they are built, \code{\link{check_changelog}} to see if there
+#'is something that looks like a changelog, and the package index for more
+#'tests and checks.
+#'
 #'@export
 check_roxygen <- function(package_directory){
   check_content(package_directory, "@export")
@@ -109,6 +116,10 @@ check_roxygen <- function(package_directory){
 #'groups of digits. As an example, 2.0.0 is semantically
 #'versioned; 2.0 is not.
 #'
+#'\code{check_versioning} takes the latest package version
+#'number found in package_metadata and identifies whether
+#'it follows this format (TRUE) or does not (FALSE).
+#'
 #'@param package_metadata package metadata retrieved with \code{\link{get_package_metadata}}.
 #'
 #'@return TRUE if the package does follow the semantic versioning standard,
@@ -122,6 +133,12 @@ check_roxygen <- function(package_directory){
 #'#Identify if fbRanks is semantically versioned (it isn't)
 #'fbranks_metadata <- get_package_metadata("fbRanks")
 #'check_versioning(fbranks_metadata)
+#'
+#'@seealso
+#'\code{\link{check_vignettes}} to identify if a package has vignettes
+#'and how they are built, \code{\link{check_roxygen}} to see if inline
+#'documentation is built with roxygen2, and the package index for more
+#'tests and checks.
 #'
 #'@export
 check_versioning <- function(package_metadata){

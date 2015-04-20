@@ -36,4 +36,10 @@ check_roxygen(file_location)
 remove_package_source(file_location)
 }
 }
+\seealso{
+\code{\link{check_vignettes}} to identify if a package has vignettes
+and how they are built, \code{\link{check_changelog}} to see if there
+is something that looks like a changelog, and the package index for more
+tests and checks.
+}
 
