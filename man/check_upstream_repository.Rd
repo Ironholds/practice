@@ -8,7 +8,9 @@ upstream patches or bug reports.}
 check_upstream_repository(package_metadata)
 }
 \arguments{
-\item{package_metadata}{package metadata retrieved with \code{\link{get_package_metadata}}}
+\item{package_metadata}{package metadata retrieved with \code{\link{get_package_metadata}},
+or the name of a package (in which case \code{get_package_metadata} will be called
+internally).}
 }
 \value{
 "GitHub", "R-Forge", "BitBucket", "Email" or "None/Other".

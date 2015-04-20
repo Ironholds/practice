@@ -32,7 +32,9 @@ check_testing <- function(package_directory){
 #'metadata and identifies from it if users are provided with an actual versioning
 #'system, or contact email, to forward issues or fixes to.
 #'
-#'@param package_metadata package metadata retrieved with \code{\link{get_package_metadata}}
+#'@param package_metadata package metadata retrieved with \code{\link{get_package_metadata}},
+#'or the name of a package (in which case \code{get_package_metadata} will be called
+#'internally).
 #'
 #'@return "GitHub", "R-Forge", "BitBucket", "Email" or "None/Other".
 #'
@@ -41,6 +43,7 @@ check_upstream_repository <- function(package_metadata){
   
   #Get last release and stick the fields that could plausibly contain a repo location
   #in an atomic vector.
+  package_metadata <- check_metadata(package_metadata)
   last_release <- package_metadata$versions[[length(package_metadata$versions)]]
   possible_repositories <- c(last_release$URL, last_release$BugReports)
   

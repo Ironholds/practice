@@ -120,7 +120,9 @@ check_roxygen <- function(package_directory){
 #'number found in package_metadata and identifies whether
 #'it follows this format (TRUE) or does not (FALSE).
 #'
-#'@param package_metadata package metadata retrieved with \code{\link{get_package_metadata}}.
+#'@param package_metadata package metadata retrieved with \code{\link{get_package_metadata}},
+#'or the name of a package (in which case \code{get_package_metadata} will be called
+#'internally).
 #'
 #'@return TRUE if the package does follow the semantic versioning standard,
 #'FALSE if not.
@@ -142,7 +144,8 @@ check_roxygen <- function(package_directory){
 #'
 #'@export
 check_versioning <- function(package_metadata){
-  grepl(x = package_metadata$latest, pattern = "\\d{1,}\\.\\d{1,}\\.\\d{1,}")
+  package_metadata <- check_metadata(package_metadata)
+  return(grepl(x = package_metadata$latest, pattern = "\\d{1,}\\.\\d{1,}\\.\\d{1,}"))
 }
 
 #'@title identify if the package contains a changelog

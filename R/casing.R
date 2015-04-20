@@ -4,7 +4,9 @@
 #'consumes package metadata and identifies the format a package's name follows,
 #'using the convention described below.
 #'
-#'@param package_metadata package metadata retrieved with \code{\link{get_package_metadata}}
+#'@param package_metadata package metadata retrieved with \code{\link{get_package_metadata}},
+#'or the name of a package (in which case \code{get_package_metadata} will be called
+#'internally).
 #'
 #'@return a named, two-element list containing "casing" ("Lower", "Upper" or "Mixed")
 #'and "alphanumeric" (TRUE for package names that exclusively contain alphanumeric characters,
@@ -21,7 +23,8 @@
 #'@export
 check_package_naming <- function(package_metadata){
   
-  #Extract title, instantiate output object
+  #Check, extract title, instantiate output object
+  package_metadata <- check_metadata(package_metadata)
   package_name <- package_metadata$name
   output <- list(casing = "Mixed", alphanumeric = TRUE)
   

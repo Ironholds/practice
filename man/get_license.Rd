@@ -7,7 +7,9 @@
 get_license(package_metadata)
 }
 \arguments{
-\item{package_metadata}{package metadata retrieved with \code{\link{get_package_metadata}}.}
+\item{package_metadata}{package metadata retrieved with \code{\link{get_package_metadata}},
+or the name of a package (in which case \code{get_package_metadata} will be called
+internally).}
 }
 \value{
 a character vector containing each unique license mentioned in the
