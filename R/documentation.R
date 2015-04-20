@@ -177,6 +177,13 @@ check_versioning <- function(package_metadata){
 #'file_location <- get_package_source("fortunes")
 #'result <- check_changelog(file_location)
 #'}
+#'
+#'@seealso
+#'\code{\link{check_vignettes}} to identify if a package has vignettes
+#'and how they are built, \code{\link{check_roxygen}} to see if inline
+#'documentation is built with roxygen2, and the package index for more
+#'tests and checks.
+#'
 #'@export
 check_changelog <- function(package_directory){
   files <- list.files(package_directory, pattern = "(change|news)", ignore.case = TRUE)

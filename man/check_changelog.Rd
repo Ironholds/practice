@@ -42,4 +42,10 @@ file_location <- get_package_source("fortunes")
 result <- check_changelog(file_location)
 }
 }
+\seealso{
+\code{\link{check_vignettes}} to identify if a package has vignettes
+and how they are built, \code{\link{check_roxygen}} to see if inline
+documentation is built with roxygen2, and the package index for more
+tests and checks.
+}
 
