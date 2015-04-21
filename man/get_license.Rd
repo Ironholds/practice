@@ -20,10 +20,16 @@ when provided with package metadata, \code{get_license}
 extracts each unique license a package is released under and provides
 them as a vector.
 }
+\details{
+license information is not stored in a tremendously consistent way, but
+we can make a best-guess at it by stripping out "+ file license" strings, and
+then splitting on |.
+}
 \examples{
-\dontrun{
 #What license(s) are urltools under?
 get_license(get_package_metadata("urltools"))
 }
+\seealso{
+the package index for more checks and functionality.
 }
 

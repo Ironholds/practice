@@ -7,14 +7,19 @@
 #'or the name of a package (in which case \code{get_package_metadata} will be called
 #'internally).
 #'
+#'@details license information is not stored in a tremendously consistent way, but
+#'we can make a best-guess at it by stripping out "+ file license" strings, and
+#'then splitting on |.
+#'
 #'@return a character vector containing each unique license mentioned in the
 #'package's DESCRIPTION field.
 #'
 #'@examples
-#'\dontrun{
+#'
 #'#What license(s) are urltools under?
 #'get_license(get_package_metadata("urltools"))
-#'}
+#'
+#'@seealso the package index for more checks and functionality.
 #'
 #'@export
 get_license <- function(package_metadata){
@@ -22,5 +27,6 @@ get_license <- function(package_metadata){
   license_info <- package_metadata$versions[[length(package_metadata$versions)]]$License
   license_info <- gsub(x = license_info, pattern = "(\\||\\+) file LICENSE", replacement = "")
   licenses <- unlist(strsplit(license_info, split = "|", fixed = TRUE))
+  licenses <- gsub(x = licenses, pattern = "(^ | $)", replacement = "")
   return(licenses)
 }
