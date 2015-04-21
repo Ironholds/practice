@@ -20,4 +20,10 @@ when provided with package metadata, \code{get_license}
 extracts each unique license a package is released under and provides
 them as a vector.
 }
+\examples{
+\dontrun{
+#What license(s) are urltools under?
+get_license(get_package_metadata("urltools"))
+}
+}
 
