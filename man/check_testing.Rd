@@ -49,4 +49,10 @@ file_location <- get_package_source("fortunes")
 check_testing(file_location)
 }
 }
+\seealso{
+\code{\link{check_upstream_repository}}
+to identify if a package has an upstream source anywhere
+(GitHub, BitBucket) that users can use to provide patches and/or
+bug reports, and the package index for more checks.
+}
 

@@ -21,4 +21,25 @@ A crucial element of good software is software that users can patch
 metadata and identifies from it if users are provided with an actual versioning
 system, or contact email, to forward issues or fixes to.
 }
+\details{
+\code{check_upstream_repository} works by checking the "URL" and "BugReports"
+fields of the most recent package release - since these are the fields most likely
+to contain a valid pointer to an upstream source - for anything that case-insensitively
+matches "github", "r-forge", "bitbucket" or "@" (for email addresses). If one is matched,
+that's the value. If none are matched, "None/Other".
+}
+\examples{
+\dontrun{
+#urltools uses GitHub. Let's see if we can identify that.
+urltools_metadata <- get_package_metadata("urltools")
+check_upstream_repository(urltools_metadata)
+
+#tm uses R-Forge
+tm_metadata <- get_package_metadata("tm")
+check_upstream_repository(tm_metadata)
+}
+}
+\seealso{
+see the package index for more checks.
+}
 
