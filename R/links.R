@@ -19,8 +19,9 @@ links_to <- function(package_metadata, with_versions = FALSE){
   
   if(with_versions){
     versioned_vec <- unlist(c(last_release$Depends, last_release$Imports, last_release$Suggests, last_release$Enhances))
-    versioned <- as.data.frame(package = names(versioned_vec), version = versioned_vec,
-                               stringsAsFactors = FALSE)
+    versioned <- data.frame(package = names(versioned_vec), version = versioned_vec,
+                            stringsAsFactors = FALSE)
+    rownames(versioned) <- NULL
     return(versioned[!duplicated(versioned),])
   }
   return(unique(c(names(last_release$Depends),names(last_release$Imports), names(last_release$Suggests), names(last_release$Enhances))))
