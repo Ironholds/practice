@@ -1,7 +1,13 @@
-<!--
-%\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{practice}
--->
+---
+title: "Introduction to practice"
+author: "Oliver Keyes"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
 
 <code>practice</code> is an R package for identifying whether *other* R packages follow common software engineering and usability conventions.
 
