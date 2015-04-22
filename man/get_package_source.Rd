@@ -21,7 +21,9 @@ on the contents. See the "See also" section for examples of these tests, and
 using it.
 }
 \seealso{
-\code{\link{remove_package_source}} to remove the package, \code{\link{check_vignettes}}
-to
+\code{\link{remove_package_source}} to remove the package,
+\code{\link{get_package_metadata}} to get the metadata associated
+with a package, or \code{\link{get_package_names}} to retrieve
+a listing of the names of packages on CRAN.
 }
 

@@ -11,8 +11,10 @@
 #'package is stored in.
 #'
 #'@seealso
-#'\code{\link{remove_package_source}} to remove the package, \code{\link{check_vignettes}}
-#'to 
+#'\code{\link{remove_package_source}} to remove the package,
+#'\code{\link{get_package_metadata}} to get the metadata associated
+#'with a package, or \code{\link{get_package_names}} to retrieve
+#'a listing of the names of packages on CRAN.
 #'
 #'@export 
 get_package_source <- function(package_name){
