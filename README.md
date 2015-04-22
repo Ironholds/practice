@@ -7,7 +7,7 @@ This package provides functions to check a CRAN package (or a set of CRAN packag
 2. Uses semantic versioning;
 3. Has long-form vignette-based documentation (and how it is built);
 4. Has roxygen2 documentation;
-5. And a whole host of things besides. See the vignette for the full list.
+5. And a whole host of things besides. See [the vignette](https://github.com/Ironholds/practice/blob/master/vignettes/Introduction.Rmd) for the full list.
 
 It was initially written by Oliver Keyes for a research collaboration with [Jenny Bryan](https://github.com/jennybc) and [David Robinson](https://github.com/dgrtwo), which is documented [here](https://github.com/Ironholds/practice/tree/master/paper), but should be generalisable and pretty usable to other people.
 
