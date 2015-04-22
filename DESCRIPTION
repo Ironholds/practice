@@ -12,4 +12,6 @@ Description: Modern software engineering expects libraries or packages to come w
 License: MIT + file LICENSE
 Imports: httr,
          jsonlite
-Suggests: testthat
+Suggests: testthat,
+    knitr
+VignetteBuilder: knitr

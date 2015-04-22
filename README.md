@@ -13,7 +13,7 @@ It was initially written by Oliver Keyes for a research collaboration with [Jenn
 
 ##Installation
 
-> devtools::install_github("ironholds/practice")
+    devtools::install_github("ironholds/practice")
 
 ##Dependencies
 
