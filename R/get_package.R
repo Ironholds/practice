@@ -16,6 +16,11 @@
 #'with a package, or \code{\link{get_package_names}} to retrieve
 #'a listing of the names of packages on CRAN.
 #'
+#'@examples
+#'\dontrun{
+#'#Get the package source for urltools
+#'file_location <- get_package_source("urltools")
+#'}
 #'@export 
 get_package_source <- function(package_name){
   
@@ -48,6 +53,18 @@ remove_package_source <- function(package_directory){
 #'
 #'@param package_name the name of a package, which can be retrieved with
 #'\code{\link{get_package_names}}
+#'
+#'@return a named list containing the metadata associated with the package.
+#'
+#'@examples
+#'\dontrun{
+#'#Get the metadata associated with dplyr
+#'dplyr_metadata <- get_package_metadata("dplyr")
+#'}
+#'@seealso
+#'\code{\link{get_package_source}} and \code{\link{remove_package_source}} for
+#'the content of a package, and \code{\link{get_package_names}} to retrieve
+#'a listing of the names of packages on CRAN.
 #'
 #'@importFrom httr GET content user_agent
 #'@importFrom jsonlite fromJSON

@@ -20,6 +20,12 @@ on the contents. See the "See also" section for examples of these tests, and
 \code{remove_package_source} to remove the source directory when you're done
 using it.
 }
+\examples{
+\dontrun{
+#Get the package source for urltools
+file_location <- get_package_source("urltools")
+}
+}
 \seealso{
 \code{\link{remove_package_source}} to remove the package,
 \code{\link{get_package_metadata}} to get the metadata associated
