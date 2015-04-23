@@ -17,3 +17,8 @@ inst/doc
 *.blg
 *.log
 *.synctex.gz
+
+# paper materials
+paper/paper.tex
+paper/*cache
+paper/*files
