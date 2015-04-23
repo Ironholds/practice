@@ -6,24 +6,20 @@
 #'@param package_directory the directory the package
 #'source code lives in, returned from \code{\link{get_package_source}}
 #'
-#'@details identifying how vignettes are created or stored isn't
-#'trivial. One heuristic we can use is the actual storage format.
-#'Traditional vignettes have been stored as ".Rnw" files, containing
-#'both code and text. More recently, R Markdown files (".Rmd") have
-#'become a preferred storage format, and are used by the Knitr vignette
-#'building package by default.
-#'
-#'\code{check_vignettes} hunts for a "vignettes" folder: if it
-#'isn't found, there are no vignettes. If it is and contains files
-#'with a ".Rnw" ending, there are Sweave vignettes. If there are
-#'files with a ".Rmd" ending, Knitr. One edge case is the situation
-#'where a package contains vignettes of both formats: the package's
-#'vignettes would be identified as Knitr-based. Whether this
-#'actually exists in the wild is not yet known.
-#'
-#'@return "No vignettes" if no vignettes are found, "Sweave" if
-#'traditional, Sweave-formatted vignettes are found, and "Knitr"
-#'if knitr-formatted vignettes are found.
+#' @details There are two things to look for in terms of vignettes: the format,
+#' either LaTeX or R markdown, and the vignette builder, typically
+#' Sweave or knitr. All .Rmd files are knitr, but .Rnw can be compiled by
+#' either.
+#' 
+#' \code{check_vignettes} looks for a \code{vignettes}
+#' folder to see whether .Rnw (LaTeX) files or .Rmd (markdown) files are
+#' found. It also checks for a VignetteBuilder option in the DESCRIPTION.
+#' 
+#' @return A list with two components:
+#'   \item{Format}{"None" if no vignettes are found, "LaTeX" if
+#' LaTeX .Rnw files are found, "Markdown" if .Rmd files are found.}
+#'   \item{Builder}{The package used to compile the vignettes,
+#' typically Sweave or knitr.}
 #'
 #'@examples
 #'\dontrun{
@@ -49,20 +45,40 @@
 #'tests and checks.
 #'
 #'@export
-check_vignettes <- function(package_directory){
-  vignettes <- "No vignettes"
+check_vignettes <- function(package_directory) {
+  vignettes <- list(Format = "None", Builder = "None")
   files <- list.files(file.path(package_directory, "vignettes"))
-  if(length(files) == 0){
+  if (length(files) == 0) {
     return(vignettes)
   }
   
-  if(grepl(x = files, pattern = "\\.Rnw$")){
-    vignettes <- "Sweave"
-  } else if(grepl(x = files, pattern = "\\.Rmd")){
-    vignettes <- "Knitr"
-  }
-  return(vignettes)
+  formats <- c()
 
+  types <- c("LaTeX", "Markdown", "rsp", "rst")
+  patterns <- c("\\.Rnw$", ".Rmd$", "(.rsp|.asis)$", "rst$")
+  
+  types <- types[sapply(patterns, function(p) {
+    any(grepl(p, files, ignore.case = TRUE))
+    })]
+  if (length(types) > 0) {
+    vignettes$Format <- paste(types, collapse = "/")
+  }
+  
+  if (vignettes$Format != "None") {
+    vignettes$Builder <- "Sweave"  # default
+  }
+  
+  # check vignette builder
+  desc_file <- file.path(package_directory, "DESCRIPTION")
+  if (file.exists(desc_file)) {
+    description <- as.list(read.dcf(desc_file)[1, ])
+    names(description) <- tolower(names(description))
+    if (!is.null(description$vignettebuilder)) {
+      vignettes$Builder <- description$vignettebuilder
+    }
+  }
+
+  vignettes
 }
 
 #'@title check whether a package's documentation uses roxygen2
@@ -100,7 +116,7 @@ check_vignettes <- function(package_directory){
 #'
 #'@export
 check_roxygen <- function(package_directory){
-  check_content(package_directory, "@export")
+  check_content(file.path(package_directory, "R"), "@export")
 }
 
 #'@title identify if the package contains a changelog

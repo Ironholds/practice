@@ -33,6 +33,37 @@ get_package_source <- function(package_name){
   return(file.path(local_temp,package_name))
 }
 
+
+#' Download multiple package sources from CRAN.
+#' 
+#' Download multiple package sources from CRAN, saving them to a
+#' directory. This can be used in a meta-analysis of CRAN.
+#' 
+#' @param package_names character vector of one or more package names
+#' @param dir directory to save packages to
+#' @param quiet whether package download messages should be suppressed
+#' 
+#' @export
+download_packages <- function(package_names, dir, quiet = TRUE) {
+  dir.create(dir, showWarnings = FALSE)
+  
+  download0 <- dplyr::failwith(NULL, download.packages)
+  
+  for (package_name in package_names) {
+    cat(package_name, "\n")
+    if (file.exists(file.path(dir, package_name))) {
+      next
+    }
+    dl <- download0(package_name, destdir = dir, type = "source", quiet = quiet)
+    if (length(dl) != 0) {
+      dl_link <- dl[1, 2]
+      untar(file.path(dl_link), exdir = dir)
+      file.remove(dl_link)
+    }
+  }
+}
+
+
 #'@title remove package source
 #'@description removes the decompressed source code of a package,
 #'retrieved with \code{get_package_source}, to free up storage
@@ -51,8 +82,10 @@ remove_package_source <- function(package_directory){
 #'@description pings the \href{http://crandb.r-pkg.org/}{crandb} CRAN metadata
 #'service to retrieve metadata associated with a specific package.
 #'
-#'@param package_name the name of a package, which can be retrieved with
-#'\code{\link{get_package_names}}
+#' @param package_name the name of a package, which can be retrieved with
+#' \code{\link{get_package_names}}
+#' @param all whether to return all versions of the package, as opposed to
+#' only the most recent
 #'
 #'@return a named list containing the metadata associated with the package.
 #'
@@ -69,11 +102,15 @@ remove_package_source <- function(package_directory){
 #'@importFrom httr GET content user_agent
 #'@importFrom jsonlite fromJSON
 #'@export
-get_package_metadata <- function(package_name){
-  results <- GET(paste0("http://crandb.r-pkg.org/", package_name, "/all"),
+get_package_metadata <- function(package_name, all = TRUE){
+  url <- paste0("http://crandb.r-pkg.org/", package_name)
+  if (all) {
+    url <- paste0(url, "/all")
+  }
+  results <- GET(url,
                  user_agent("practice - https://github.com/Ironholds/practice"))
   results <- content(results, as = "parsed")
-  if(length(names(results)) == 2 && names(results) == c("error","reason")){
+  if (length(names(results)) == 2 && names(results) == c("error", "reason")) {
     stop(results$reason)
   }
   return(results)

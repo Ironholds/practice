@@ -12,29 +12,25 @@ check_vignettes(package_directory)
 source code lives in, returned from \code{\link{get_package_source}}}
 }
 \value{
-"No vignettes" if no vignettes are found, "Sweave" if
-traditional, Sweave-formatted vignettes are found, and "Knitr"
-if knitr-formatted vignettes are found.
+A list with two components:
+  \item{Format}{"None" if no vignettes are found, "LaTeX" if
+LaTeX .Rnw files are found, "Markdown" if .Rmd files are found.}
+  \item{Builder}{The package used to compile the vignettes,
+typically Sweave or knitr.}
 }
 \description{
 identify how a package's vignettes are built, if it has
 vignettes.
 }
 \details{
-identifying how vignettes are created or stored isn't
-trivial. One heuristic we can use is the actual storage format.
-Traditional vignettes have been stored as ".Rnw" files, containing
-both code and text. More recently, R Markdown files (".Rmd") have
-become a preferred storage format, and are used by the Knitr vignette
-building package by default.
+There are two things to look for in terms of vignettes: the format,
+either LaTeX or R markdown, and the vignette builder, typically
+Sweave or knitr. All .Rmd files are knitr, but .Rnw can be compiled by
+either.
 
-\code{check_vignettes} hunts for a "vignettes" folder: if it
-isn't found, there are no vignettes. If it is and contains files
-with a ".Rnw" ending, there are Sweave vignettes. If there are
-files with a ".Rmd" ending, Knitr. One edge case is the situation
-where a package contains vignettes of both formats: the package's
-vignettes would be identified as Knitr-based. Whether this
-actually exists in the wild is not yet known.
+\code{check_vignettes} looks for a \code{vignettes}
+folder to see whether .Rnw (LaTeX) files or .Rmd (markdown) files are
+found. It also checks for a VignetteBuilder option in the DESCRIPTION.
 }
 \examples{
 \dontrun{
