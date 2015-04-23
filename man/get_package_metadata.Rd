@@ -4,11 +4,14 @@
 \alias{get_package_metadata}
 \title{get metadata associated with a package on CRAN}
 \usage{
-get_package_metadata(package_name)
+get_package_metadata(package_name, all = TRUE)
 }
 \arguments{
 \item{package_name}{the name of a package, which can be retrieved with
 \code{\link{get_package_names}}}
+
+\item{all}{whether to return all versions of the package, as opposed to
+only the most recent}
 }
 \value{
 a named list containing the metadata associated with the package.

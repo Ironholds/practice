@@ -1,0 +1,78 @@
+---
+title: Software Engineering Standards in the R Community
+author:
+  - name: Oliver Keyes
+    affiliation: Wikimedia Foundation
+    email:  ironholds@gmail.com
+  - name: Jennifer Bryan
+    affiliation: University of British Columbia
+    email:  jenny@stat.ubc.ca
+  - name: David Robinson
+    affiliation: Princeton University
+    email:  admiral.david@gmail.com
+abstract: >
+  Oliver's abstract for useR goes here.
+preamble: >
+  % Any extra latex you need in the preamble
+output: rticles::rjournal_article
+---
+
+```{r setup, echo = FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, cache = TRUE)
+```
+
+```{r load_data}
+library(practice)
+library(plyr)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+data("CRANpractices")
+```
+
+## Introduction
+
+Introductory section which may include references in parentheses
+\citep{R}, or cite a reference such as \citet{R} in the text.
+
+## Best Practices
+
+A list of practices we check, like
+
+* Tests
+* Vignettes
+* roxygen2
+
+## Practices in CRAN
+
+Some figures and analyses, like Figure \ref{fig:CRAN_vignettes}.
+
+```{r caption_calculations, dependson = "load_data"}
+use_vignettes <- sum(CRANpractices$vignette_format != "None")
+use_vignettes_percent <- 100 * use_vignettes / nrow(CRANpractices)
+```
+
+\begin{figure}
+```{r vignette_figure, dependson = "load_data"}
+vignette_count <- CRANpractices %>%
+  count(vignette_format, vignette_builder) %>%
+  ungroup() %>%
+  gather(metric, choice, -n) %>%
+  mutate(metric = revalue(metric, c(vignette_format = "Vignette Format",
+                                    vignette_builder = "Vignette Builder"))) %>%
+  filter(choice != "None") %>%
+  mutate(choice = reorder(choice, n, function(x) -mean(x)))
+
+ggplot(vignette_count, aes(choice, n)) +
+  geom_bar(stat = "identity") +
+  facet_wrap(~ metric, scale = "free", ncol = 2) +
+  xlab("Choice") +
+  ylab("Number of packages") +
+  theme_bw(base_size = 10) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+\caption{Distribution of the choice of vignette builder and format, among the `r round(use_vignettes_percent, 1)`\% of CRAN packages that use vignettes. \label{fig:CRAN_vignettes}}
+\end{figure}
+
+\bibliography{RJreferences}

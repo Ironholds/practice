@@ -14,9 +14,8 @@
 #'
 #'@export
 links_to <- function(package_metadata, with_versions = FALSE){
-  package_metadata <- check_metadata(package_metadata)
-  last_release <- package_metadata$versions[[length(package_metadata$versions)]]
-  
+  last_release <- check_metadata(package_metadata)
+
   if(with_versions){
     versioned_vec <- unlist(c(last_release$Depends, last_release$Imports, last_release$Suggests, last_release$Enhances))
     versioned <- data.frame(package = names(versioned_vec), version = versioned_vec,
@@ -43,8 +42,8 @@ links_to <- function(package_metadata, with_versions = FALSE){
 #'
 #'@export
 links_from <- function(package_metadata){
-  package_metadata <- check_metadata(package_metadata)
-  if(is.null(package_metadata$revdeps)){
+  package_metadata <- check_metadata(package_metadata, latest = FALSE)
+  if (is.null(package_metadata$revdeps)){
     return(0)
   }
   return(package_metadata$revdeps)

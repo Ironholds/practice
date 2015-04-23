@@ -11,10 +11,14 @@ vignettes/*.html
 vignettes/*.pdf
 .Rproj.user
 inst/doc
-
 #Paper
 *.aux
 *.bbl
 *.blg
 *.log
 *.synctex.gz
+
+# paper materials
+paper/paper.tex
+paper/*cache
+paper/*files

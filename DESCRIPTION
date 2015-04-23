@@ -10,8 +10,13 @@ Description: Modern software engineering expects libraries or packages to come w
              Practice contains a set of tools for identifying if a package follows these conventions, as well
              as extracting other metadata related to the package's content and the conventions it follows.
 License: MIT + file LICENSE
-Imports: httr,
-         jsonlite
-Suggests: testthat,
+Depends: R (>= 2.10)
+Imports: plyr,
+    dplyr,
+    httr,
+    jsonlite
+Suggests: tidyr,
+    testthat,
     knitr
 VignetteBuilder: knitr
+LazyData: true

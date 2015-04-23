@@ -25,7 +25,7 @@ check_package_naming <- function(package_metadata){
   
   #Check, extract title, instantiate output object
   package_metadata <- check_metadata(package_metadata)
-  package_name <- package_metadata$name
+  package_name <- package_metadata$Package
   output <- list(casing = "Mixed", alphanumeric = TRUE)
   
   #Casing

@@ -45,18 +45,32 @@
 #'
 #'@export
 check_testing <- function(package_directory){
-  
-  output <- "None"
-  
+  test_dir <- file.path(package_directory, "tests")
+  inst_dir <- file.path(package_directory, "inst")
+  desc_file <- file.path(package_directory, "DESCRIPTION")
+
   #Check for RUnit, testthat first
-  if(check_content(package_directory, "((library|require)\\(RUnit\\)|RUnit::)")){
-    output <- "RUnit"
-  } else if(check_content(package_directory, "((library|require)\\(testthat\\)|testthat::)")){
-    output <- "testthat"
-  } else if(length(list.dirs(path = package_directory, full.names = FALSE, recursive = FALSE))){
-    output <- "Other"
+  runit_str <- "((library|require)\\(RUnit\\)|RUnit::)"
+  testthat_str <- "((library|require)\\(testthat\\)|testthat::)"
+  if (file.exists(desc_file) && check_file(desc_file, "RUnit")) {
+    return("RUnit")
   }
-  return(output)
+  if (check_content(test_dir, runit_str) ||
+      check_content(inst_dir, runit_str)) {
+    return("RUnit")
+  }
+  if (file.exists(desc_file) && check_file(desc_file, "testthat")) {
+    return("testthat")
+  }
+  if (check_content(test_dir, testthat_str) ||
+      check_content(inst_dir, testthat_str)) {
+    return("testthat")
+  }
+  if (file.exists(test_dir)) {
+    return("Other")
+  }
+  
+  return("None")
 }
 
 #'@title identify if a package is semantically versioned
@@ -100,8 +114,8 @@ check_testing <- function(package_directory){
 #'
 #'@export
 check_versioning <- function(package_metadata){
-  package_metadata <- check_metadata(package_metadata)
-  return(grepl(x = package_metadata$latest, pattern = "\\d{1,}\\.\\d{1,}\\.\\d{1,}"))
+  latest_version <- check_metadata(package_metadata)
+  return(grepl(x = latest_version$Version, pattern = "\\d{1,}\\.\\d{1,}\\.\\d{1,}"))
 }
 
 #'@title identifies if a package indicates it has a versioned repository for
@@ -143,8 +157,7 @@ check_upstream_repository <- function(package_metadata){
   
   #Get last release and stick the fields that could plausibly contain a repo location
   #in an atomic vector.
-  package_metadata <- check_metadata(package_metadata)
-  last_release <- package_metadata$versions[[length(package_metadata$versions)]]
+  last_release <- check_metadata(package_metadata)
   possible_repositories <- c(last_release$URL, last_release$BugReports)
   
   #Iterate through seeing if the fields contain anything we recognise. If they don't

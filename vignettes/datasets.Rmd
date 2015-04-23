@@ -1,0 +1,63 @@
+---
+title: "Dataset Setup and Usage"
+author: "Oliver Keyes and David Robinson"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Dataset Setup and Usage}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+The `practice` package provides some datasets, particularly about CRAN, that make it easier to use. For maximum transparency, it is set up to construct these datasets using its own functions.
+
+### CRAN Metadata
+
+For example, the `CRANmetadata` package contains a list of lists, each representing metadata information about a CRAN package.
+
+You can create or update this data yourself, using the `update_CRAN_metadata` function:
+
+```{r eval = FALSE}
+practice:::update_CRAN_metadata(verbose = TRUE)
+```
+
+### Package sources
+
+The sources of CRAN packages do *not* come included with the package, since they're ~ 5 GB and counting. However, `practice` provides a function to download them yourself:
+
+```{r, eval = FALSE}
+download_packages(get_package_names(), "cran_sources", quiet = FALSE)
+```
+
+This will download the sources of all packages into the `cran_sources` directory.
+
+### Package practices
+
+The `CRANpractices` dataset contains information on all CRAN packages and whether they follow software engineering practices. Once the package sources are downloaded as above, it can be created with:
+
+```{r eval = FALSE}
+practice:::update_CRAN_practices(src_dir = "cran_sources")
+```
+
+(This takes about two minutes).  The data looks like:
+
+```{r}
+library(practice)
+library(dplyr)
+data(CRANpractices)
+
+CRANpractices
+```
+
+You can use it to answer questions about the frequency of particular practices:
+
+```{r}
+CRANpractices %>%
+  count(license) %>%
+  arrange(desc(n))
+
+CRANpractices %>%
+  count(vignette_format, vignette_builder) %>%
+  ungroup() %>%
+  arrange(desc(n))
+```
