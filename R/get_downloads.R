@@ -22,6 +22,7 @@
 #'
 #'#all package downloads on 1-2nd April
 #'get_package_downloads(NULL, "2015-04-01", "2015-04-02", all = TRUE)
+#'
 #'@export
 get_package_downloads <- function(packages = NULL, start_date, end_date, all = FALSE){
   if(length(packages) > 1){

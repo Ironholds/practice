@@ -34,6 +34,8 @@
 #'   unnest(links_to)
 #' }
 #' 
+#' @importFrom plyr ldply
+#' @importFrom dplyr failWith, tbl_df
 #' @export
 check_practices <- function(package_name, metadata_lst = NULL, src_dir = NULL,
                             error = TRUE) {
@@ -94,23 +96,22 @@ check_practices <- function(package_name, metadata_lst = NULL, src_dir = NULL,
     ret$links_from <- links_from(metadata)
   }
   
-  ret
+  return(ret)
 }
 
 
-#' If a vector is of length greater than 1, make it a list;
+#' @title If a vector is of length greater than 1, make it a list;
 #' if it's NULL, return NA
 #' 
-#' This is useful for creating a data frame that may have
+#' @description This is useful for creating a data frame that may have
 #' list-columns
 #' 
 #' @param x a vector
 make_vector_list <- function(x) {
   if (length(x) > 1) {
-    list(x)
+    return(list(x))
   } else if (length(x) == 0) {
-    NA
-  } else {
-    x
+    return(NA)
   }
+  return(x)
 }

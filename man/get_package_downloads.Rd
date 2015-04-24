@@ -4,10 +4,11 @@
 \alias{get_package_downloads}
 \title{retrieve the number of downloads of a package}
 \usage{
-get_package_downloads(package, start_date, end_date, all = FALSE)
+get_package_downloads(packages = NULL, start_date, end_date, all = FALSE)
 }
 \arguments{
-\item{package}{the name of a package.}
+\item{packages}{the name of a package, or a vector of
+multiple package names.}
 
 \item{start_date}{the start of the date range to cover.}
 
@@ -23,5 +24,12 @@ of packages from the RStudio CRAN mirror; it can be
 used as a measure of package popularity and,
 by extension, a measure of the importance of a particular
 package having good engineering standards
+}
+\examples{
+#ggplot2 downloads in March 2015
+get_package_downloads("ggplot2", "2015-03-01", "2015-03-31")
+
+#all package downloads on 1-2nd April
+get_package_downloads(NULL, "2015-04-01", "2015-04-02", all = TRUE)
 }
 
