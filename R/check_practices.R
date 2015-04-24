@@ -34,8 +34,6 @@
 #'   unnest(links_to)
 #' }
 #' 
-#' @importFrom plyr ldply
-#' @importFrom dplyr failWith, tbl_df
 #' @export
 check_practices <- function(package_name, metadata_lst = NULL, src_dir = NULL,
                             error = TRUE) {
@@ -75,7 +73,10 @@ check_practices <- function(package_name, metadata_lst = NULL, src_dir = NULL,
   # there are UTF-8 files. As a temporary workaround, we use NA in its place
   check_testing0 <- dplyr::failwith(NA, check_testing, quiet = TRUE)
   check_roxygen0 <- dplyr::failwith(NA, check_roxygen, quiet = TRUE)
-
+  
+  end_date <- Sys.Date()
+  start_date <- (end_date - 30)
+  
   ret <- dplyr::data_frame(
     package = package_name,
     casing = naming$casing,
@@ -88,10 +89,10 @@ check_practices <- function(package_name, metadata_lst = NULL, src_dir = NULL,
     roxygen = check_roxygen0(src),
     changelog = check_changelog(src),
     vignette_format = vignettes$Format,
-    vignette_builder = vignettes$Builder
+    vignette_builder = vignettes$Builder,
+    downloads = check_downloads(package_name, start_date, end_date)
   )
 
-  
   if (!is.null(metadata$latest)) {
     ret$links_from <- links_from(metadata)
   }
