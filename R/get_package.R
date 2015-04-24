@@ -107,8 +107,7 @@ get_package_metadata <- function(package_name, all = TRUE){
   if (all) {
     url <- paste0(url, "/all")
   }
-  results <- GET(url,
-                 user_agent("practice - https://github.com/Ironholds/practice"))
+  results <- GET(url, user_agent("practice - https://github.com/Ironholds/practice"))
   results <- content(results, as = "parsed")
   if (length(names(results)) == 2 && names(results) == c("error", "reason")) {
     stop(results$reason)
