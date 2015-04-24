@@ -18,13 +18,13 @@
 #'
 #'@examples
 #'#ggplot2 downloads in March 2015
-#'get_package_downloads("ggplot2", "2015-03-01", "2015-03-31")
+#'check_downloads("ggplot2", "2015-03-01", "2015-03-31")
 #'
 #'#all package downloads on 1-2nd April
-#'get_package_downloads(NULL, "2015-04-01", "2015-04-02", all = TRUE)
+#'check_downloads(NULL, "2015-04-01", "2015-04-02", all = TRUE)
 #'
 #'@export
-get_package_downloads <- function(packages = NULL, start_date, end_date, all = FALSE){
+check_downloads <- function(packages = NULL, start_date, end_date, all = FALSE){
   if(length(packages) > 1){
     packages <- paste(packages, collapse = ",")
   }
@@ -38,5 +38,7 @@ get_package_downloads <- function(packages = NULL, start_date, end_date, all = F
   if(length(results) == 2 && names(results) == c("error","info")){
     stop(results$error)
   }
+  
+  results <- unlist(lapply(results, function(x){return(x$downloads)}))
   return(results)
 }
