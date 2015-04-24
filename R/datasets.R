@@ -3,7 +3,8 @@
 #' Download metadata from multiple packages to a file. This is useful for
 #' larger analyses of CRAN.
 #' 
-#' @param package_names Character vector of package names
+#' @param package_names Character vector of package names; retrievable with
+#' \code{\link{get_package_names}}
 #' @param verbose Whether package names should be displayed as they are downloaded
 #' @param ... Extra arguments passed on to \code{get_package_metadata}
 #' 
@@ -20,10 +21,10 @@ download_packages_metadata <- function(package_names, verbose = FALSE, ...) {
     }
     ret <- get_package_metadata(package_name, ...)
     ret$retrieved <- Sys.time()
-    ret
+    return(ret)
   })
   names(ret) <- package_names
-  ret
+  return(ret)
 }
 
 
