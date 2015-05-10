@@ -10,10 +10,20 @@ author:
   - name: David Robinson
     affiliation: Princeton University
     email:  admiral.david@gmail.com
-abstract: >
-  Oliver's abstract for useR goes here.
-preamble: >
-  % Any extra latex you need in the preamble
+abstract: R flourishes because of its wide range of user-submitted packages,
+  providing generalised solutions to real-world problems. Crucial to
+  these packages being useful, adopted and trusted by useRs is that they
+  follow reasonable software engineering expectations, from unit tests
+  to user-friendly documentation.
+
+  We performed a quantitative and qualitative analysis of CRAN-hosted
+  packages, examining their use of unit tests, internal consistency and
+  documentation standards, along with many other variables. We report on
+  this analysis and suggest best practises for writing new R packages,
+  along with proposals to improve the standards of existing, widely-used
+  packages.
+  
+
 output: rticles::rjournal_article
 ---
 
@@ -33,16 +43,11 @@ data("CRANpractices")
 
 ## Introduction
 
-Introductory section which may include references in parentheses
-\citep{R}, or cite a reference such as \citet{R} in the text.
+## Best Practices in Software Engineering
 
-## Best Practices
+There is no single list of "best practices" for writing high quality software, but there are some general traits that such software possesses. From the perspective of the user, software should be accurate, fast-running and easy to use. From the perspective of the developer, the internal code should be maintainable, portable and lend itself to being tested.\citet{codecomplete} We can point to specific conventions or expectations that are built on these traits:
 
-A list of practices we check, like
-
-* Tests
-* Vignettes
-* roxygen2
+1. **Unit and integration tests**: code that tests whether code run by the user is fit for use, by performing operations and checking that the results are as expected. This touches on both "accuracy" (it prevents the wrong result being provided to the user) and "maintainability" (it gives the developer a way of conveniently checking that modifications have not broken functionality before releasing software). In R, unit tests can be created in an *ad-hoc* fashion or using a pre-existing testing framework, such as *RUnit*\citet{RUnit} or *testthat*\citet{testthat}.
 
 ## Practices in CRAN
 
