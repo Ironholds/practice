@@ -45,9 +45,10 @@ data("CRANpractices")
 
 ## Best Practices in Software Engineering
 
-There is no single list of "best practices" for writing high quality software, but there are some general traits that such software possesses. From the perspective of the user, software should be accurate, fast-running and easy to use. From the perspective of the developer, the internal code should be maintainable, portable and lend itself to being tested.\citet{codecomplete} We can point to specific conventions or expectations that are built on these traits:
+There is no single list of "best practices" for writing high quality software, but there are some general traits that such software possesses. From the perspective of the user, software should be accurate, fast-running and easy to use. From the perspective of the developer, the internal code should be maintainable, portable and lend itself to being tested \citet{codecomplete}. We can point to specific conventions or expectations that are built on these traits:
 
 1. **Unit and integration tests**: code that tests whether code run by the user is fit for use, by performing operations and checking that the results are as expected. This touches on both "accuracy" (it prevents the wrong result being provided to the user) and "maintainability" (it gives the developer a way of conveniently checking that modifications have not broken functionality before releasing software). In R, unit tests can be created in an *ad-hoc* fashion or using a pre-existing testing framework, such as *RUnit* \citet{RUnit} or *testthat* \citet{testthat}.
+2. **Documentation**, both for individual functions and 
 
 ## Practices in CRAN
 
