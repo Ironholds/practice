@@ -43,14 +43,52 @@ data("CRANpractices")
 
 ## Introduction
 
+### Why Good Software is Important to R
+
 ## Best Practices in Software Engineering
 
-There is no single list of "best practices" for writing high quality software, but there are some general traits that such software possesses. From the perspective of the user, software should be accurate, fast-running and easy to use. From the perspective of the developer, the internal code should be maintainable, portable and lend itself to being tested \citet{codecomplete}. We can point to specific conventions or expectations that are built on these traits:
+There is no single list of "best practices" for writing high quality software, but there are some general traits that such software possesses. McConnell points to many of them in *Code Complete* \citet{codecomplete} and divides them into "external" traits, that face the user, and "internal" traits, that face the developer.
 
-1. **Unit and integration tests**: code that tests whether code run by the user is fit for use, by performing operations and checking that the results are as expected. This touches on both "accuracy" (it prevents the wrong result being provided to the user) and "maintainability" (it gives the developer a way of conveniently checking that modifications have not broken functionality before releasing software). In R, unit tests can be created in an *ad-hoc* fashion or using a pre-existing testing framework, such as *RUnit* \citet{RUnit} or *testthat* \citet{testthat}.
-2. **Documentation**, both for individual functions and 
+From the perspective of the user, software should be accurate, fast-running and easy to use. From the perspective of the developer, the internal code should be maintainable, portable and lend itself to being tested. We can point to specific conventions or expectations that are built on these traits.
+
+### Traits of Good Software
+
+1. **Unit and integration tests**: code that tests whether code run by the user is fit for use, by performing operations and checking that the results are as expected. This touches on both "accuracy" (it prevents the wrong result being provided to the user) and "maintainability" (it gives the developer a way of conveniently checking that modifications have not broken functionality before releasing software). In R package development, unit tests can be created in an *ad-hoc* fashion or using a pre-existing testing framework, such as *RUnit* \citet{RUnit} or *testthat* \citet{testthat}.
+2. **Documentation**, demonstrating the use of software and illustrating particular pitfalls or components - this speaks directly to the ease of use that the software has. In R package development, such documentation usually consists of an entry for each exported object, and sometimes also includes long-form vignettes that describe the package as a whole. Both elements can be completed just using R itself, \citet{R} but it has become increasingly popular to use package-provided functionality, aimed at reducing the barrier to documentation. For per-object documentation, this is usually the *roxygen2* package \citet{roxygen}; for long-form vignettes, *knitr* \citet{knitr}.
+3. **User-facing preditability**, allowing a user to (after a certain amount of experience with a piece of software) intuitively understand what unexplored functionality is likely to do if triggered, and understand upon the upgrade of a piece of software how much they will have to relearn. This is harder to automatically test for or build, but there are heuristics (explored below) for identifying whether software follows this standard.
+
+We would also add one final trait not covered by McConnell, and perhaps specific to the R community's focus on a community of developers rather than any individual developer, and that is the ability of people to transition from being external users to being internal developers. In other words, whether the software is designed and built in such a way as to create a very low barrier to upstream bug reports and patches from individual software users.
+
+### Testing for Best Practices
+
+Now that we have identified these "best practices" and "traits", how do we test for them in R packages?
+
+#### Unit testing
+
+For unit testing, we can take the content of a package, and its "metadata" (the DESCRIPTION) file and use our knowledge of how the different frameworks (testthat and RUnit) make themselves known. In the case of testthat, a "tests" directory is created in the package source code, with a "testthat" folder underneath it. In the case of RUnit, tests can appear in a dedicated directory, or scattered throughout the package code, but must ultimately include either an explicit call to load the RUnit package, or an implicit call by using :: to refer to exported objects from RUnit's namespace. In both cases, the packages *may* be mentioned in the DESCRIPTION file, but this is not certain. 
+
+In the case of tests that do not use a package framework, there is no concrete way of automatically identifying if tests exist, but a general convention is to create a "tests" directory. Accordingly we adopted the following heuristics to identify the presence of tests, and what framework (if any) they followed:
+
+1. If testthat is suggested in the DESCRIPTION file, the result is "testthat";
+2. Otherwise, if RUnit is suggested in the DESCRIPTION file, the result is "RUnit";
+3. Otherwise, if there is a tests directory, and a testthat directory underneath it, the result is "testthat";
+4. Otherwise, if there is a call somewhere in the package's R code to RUnit, the result is "RUnit";
+5. Otherwise, if there is a "tests" directory, the result is "Other";
+6. Otherwise, the result is "None".
+
+#### Documentation
+
+David, I'm going to let you take this section because you understand knitr-versus-sweave and all of that malarkey much better than muggins here.
+
+#### Predictability
+
+The predictability of a package is, as said, not the easiest thing to evaluate, but we can tease out some information by looking at several characteristics. One obvious heuristic for user-facing predictability is to look for the presence of *semantic versioning*, a versioning system that distinguishes backwards-compatible bugfixes, backwards-compatible new features, and "breaking changes" that create an incompatability between versions. The presence of this versioning system, or something analogous, allows the user to trivially identify, on an update, whether modifications between versions necessitate actions or changes on their end, and whether what the package will do has changed.
+
+#### Ease of transition
 
 ## Practices in CRAN
+
+Using the above heuristics, we retrieved (distinctly) the metadata and source code of each package on CRAN as of 03:00:01 on 27 April 2015. This came to 6,551 packages in total. Metadata was retrieved using the meta-cran service, and the source code by downloading each package's source from CRAN. Each package was then checked using each of the heuristics described in the section above (*Testing for Best Practices*): the resulting dataset can be found in the R package that accompanies this paper.
 
 Some figures and analyses, like Figure \ref{fig:CRAN_vignettes}.
 
