@@ -10,18 +10,24 @@ download_packages_metadata(package_names, verbose = FALSE, ...)
 \item{package_names}{Character vector of package names; retrievable with
 \code{\link{get_package_names}}}
 
-\item{verbose}{Whether package names should be displayed as they are downloaded}
+\item{verbose}{Whether package names should be displayed as they are
+downloaded}
 
-\item{...}{Extra arguments passed on to \code{get_package_metadata}}
+\item{...}{Extra arguments passed on to \code{\link{get_package_metadata}}}
 }
 \value{
-A named list, one for each package, containing a list for each package
-metadata. This list contains the contents from the CRAN API, with one
-field added: \code{retrieved}, a \code{posixCT} object with the time that the
-data was retrieved.
+A named list, one component for each package, containing a list of
+  metadata for the package. This list contains the contents from the
+  \href{https://github.com/metacran/crandb}{CRAN API}, with one field added:
+  \code{retrieved}, a \code{\link[=DateTimeClasses]{POSIXct}} object with
+  the time that the data was retrieved.
 }
 \description{
-Download metadata from multiple packages to a file. This is useful for
-larger analyses of CRAN.
+Download metadata from multiple packages to a file. This is useful for larger
+analyses of CRAN.
+}
+\examples{
+foo <- download_packages_metadata(c("broom", "tidyr"))
+str(foo, max.level = 2)
 }
 

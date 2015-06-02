@@ -16,13 +16,20 @@ The `practice` package provides some datasets, particularly about CRAN, that mak
 
 ### CRAN Metadata
 
-For example, the `CRANmetadata` package contains a list of lists, each representing metadata information about a CRAN package.
+For example, the `CRANmetadata` object contains a list of lists, each representing metadata information about a CRAN package. It ships with the `practice` package.
 
-You can create or update this data yourself, using the `update_CRAN_metadata` function:
+```{r}
+str(CRANmetadata, max.level = 1, list.len = 6)
+str(CRANmetadata[[1]], max.level = 2)
+```
+
+You can create or update this data yourself, using the `update_CRAN_metadata()` function:
 
 ```{r eval = FALSE}
 practice:::update_CRAN_metadata(verbose = TRUE)
 ```
+
+Note: as you might expect, this will take several minutes! You can always explore the pre-built `CRANmetadata` object first and update later at your convenience.
 
 ### Package sources
 

@@ -7,19 +7,20 @@
 update_CRAN_metadata(data_dir = "data", all = FALSE, ...)
 }
 \arguments{
-\item{data_dir}{Output directory to write CRANmetadata.rda}
+\item{data_dir}{Output directory to write \code{CRANmetadata.rda}}
 
-\item{all}{Whether all versions should be downloaded, or just the latest version
-(by default, only latest version)}
+\item{all}{Whether all versions should be downloaded, or just the latest
+version (by default, only latest version)}
 
-\item{...}{Extra arguments passed on to \code{download_packages_metadata}}
+\item{...}{Extra arguments passed on to
+  \code{\link{download_packages_metadata}}}
 }
 \value{
-The CRANmetadata object, invisible
+The \code{\link{CRANmetadata}} object, invisibly
 }
 \description{
-Download metadata from all CRAN packages, and save it into a directory
-(by default, \code{data}). This is used to create the \code{CRANmetdata}
+Download metadata from all CRAN packages, and save it into a directory (by
+default, \code{data}). This is used to create the \code{\link{CRANmetadata}}
 dataset.
 }
 

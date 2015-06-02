@@ -7,9 +7,9 @@
 update_CRAN_practices(data_dir = "data", src_dir = NULL, ...)
 }
 \arguments{
-\item{data_dir}{output directory to write CRANpractices.rda}
+\item{data_dir}{Output directory to write \code{CRANpractices.rda}}
 
-\item{src_dir}{directory of package sources}
+\item{src_dir}{Directory of package sources}
 
 \item{...}{extra arguments passed on to \code{\link{check_practices}}}
 }
@@ -17,7 +17,8 @@ update_CRAN_practices(data_dir = "data", src_dir = NULL, ...)
 Check all CRAN practices, and save them to a directory.
 }
 \details{
-This works with the current version of the CRANmetadata dataset (make
-sure you've re-built the package if you've updated that dataset).
+This works with the current version of the \code{\link{CRANmetadata
+  dataset}} (make sure you've re-built the package if you've updated that
+  dataset).
 }
 

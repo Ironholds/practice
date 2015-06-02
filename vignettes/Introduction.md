@@ -11,7 +11,7 @@ To do anything with `practice` you need data about a package (or a set of packag
 
 Metadata is provided with `get_package_metadata`, which hooks into [Gábor Csárdi](https://github.com/gaborcsardi)'s wonderful [crandb](https://github.com/metacran/crandb) database of CRAN metadata. It accepts a single argument - the name of a package - and returns a named list of all the metadata *associated* with that package.
 
-Source code can be obtained with `get_package_source`: like metadata, it accepts the package name as an argument. Unlike metadata, it returns the full path to a temporary, uncompressed version of the package's source code, which can be passed into other functions until you're done with it - at which point passing it into `remove_package_source`will delete the local copy.
+Source code can be obtained with `get_package_source`: like metadata, it accepts the package name as an argument. Unlike metadata, it returns the full path to a temporary, uncompressed version of the package's source code, which can be passed into other functions until you're done with it - at which point passing it into `remove_package_source` will delete the local copy.
 
 Just in case you want to run this analysis over a lot of R packages, we've also got `get_package_names`, which does what it says on the tin: returns a character vector containing the names of every package on CRAN. Then you can pass them into the other data retrieval functions as much as you want.
 
