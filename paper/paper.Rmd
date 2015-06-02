@@ -37,8 +37,6 @@ library(plyr)
 library(dplyr)
 library(tidyr)
 library(ggplot2)
-
-data("CRANpractices")
 ```
 
 ## Introduction

@@ -54,7 +54,6 @@ practice:::update_CRAN_practices(src_dir = "cran_sources")
 ```{r}
 library(practice)
 library(dplyr)
-data(CRANpractices)
 
 CRANpractices
 ```

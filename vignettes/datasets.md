@@ -119,8 +119,6 @@ library(dplyr)
 ```
 
 ```r
-data(CRANpractices)
-
 CRANpractices
 ```
 
