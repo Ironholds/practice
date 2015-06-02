@@ -2,7 +2,10 @@
 title: "Dataset Setup and Usage"
 author: "Oliver Keyes and David Robinson"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    keep_md: true
 vignette: >
   %\VignetteIndexEntry{Dataset Setup and Usage}
   %\VignetteEngine{knitr::rmarkdown}
