@@ -7,7 +7,8 @@
 download_packages_metadata(package_names, verbose = FALSE, ...)
 }
 \arguments{
-\item{package_names}{Character vector of package names}
+\item{package_names}{Character vector of package names; retrievable with
+\code{\link{get_package_names}}}
 
 \item{verbose}{Whether package names should be displayed as they are downloaded}
 
