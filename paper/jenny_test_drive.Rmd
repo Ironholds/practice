@@ -1,0 +1,128 @@
+---
+title: "Jenny Test Drive"
+author: "Jenny Bryan"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    keep_md: TRUE
+---
+
+```{r setup, echo = FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, dpi = 300)
+ggplot2::theme_set(ggplot2::theme_bw())
+```
+
+```{r load_packages}
+library(practice)
+library(dplyr)
+library(ggplot2)
+library(scales)
+data("CRANpractices") # apparently this IS needed if first call is inline?
+```
+
+### Frequency tables and barcharts
+
+Many variables take on a small number of values and we can digest their frequencies *en masse*.
+
+There are `r nrow(CRANpractices)` packages in this dataset.
+
+```{r munge-simple-factors}
+## variables that make reasonable factors, w/ a modest number of levels
+j_vars <- c('casing', 'alphanumeric', 'upstream_repo',
+            'versioning', 'testing', 'roxygen', 'changelog')
+j_vars <- setNames(j_vars, j_vars)
+j_ft <- lapply(j_vars, function(x) {
+  CRANpractices %>% count_(vars = list(x), sort = TRUE)
+})
+j_ft2 <- lapply(j_ft, function(x) {
+  what <- names(x)[1]
+  dots <- list(what)
+  x <- x %>%
+    rename_(.dots = setNames(dots, "val")) %>% 
+    mutate(val = as.character(val),
+           var = what,
+           bar = paste(var, val, sep = ".")) %>% 
+    select(bar, var, val, n)
+})
+j_ft3 <- bind_rows(j_ft2)
+j_ft3$bar <- factor(j_ft3$bar, rev(j_ft3$bar))
+```
+
+```{r barchart-simple-factors, fig.height=6}
+p <- ggplot(j_ft3, aes(x = n, y = bar))
+p + geom_segment(aes(yend = bar), xend = 0, lwd = 3, colour = "grey50") +
+  geom_text(aes(label = n), hjust = -0.1, size = 4) +
+  facet_grid(var ~ ., scales = "free_y", space = "free_y") +
+  theme(strip.background = element_blank(), strip.text = element_blank(),
+        axis.title.y = element_blank()) +
+  expand_limits(x = 7000)
+```
+
+Variables in `CRANpractices` that are not covered above:
+
+```{r}
+setdiff(names(CRANpractices), j_vars)
+```
+
+### License
+
+```{r license}
+lic_dat <- CRANpractices %>%
+  count(license, sort = TRUE) %>% 
+  mutate(license = factor(license, rev(license))) %>% 
+  filter(n > 4)
+p <- ggplot(lic_dat, aes(x = n, y = license))
+p + geom_segment(aes(yend = license), xend = 0, lwd = 3, colour = "grey50") +
+  geom_text(aes(label = n), hjust = -0.1, size = 4) +
+  expand_limits(x = 2800)
+```
+
+### Downloads
+
+```{r downloads-densityplots}
+p <- ggplot(CRANpractices %>% filter(!is.na(roxygen)),
+            aes(x = downloads)) + scale_x_log10(breaks = 10 ^ (1:5),
+                                                labels = comma)
+p + geom_density()
+p + geom_density(aes(fill = roxygen), alpha = 0.5)
+#p + geom_density(aes(fill = testing)) + facet_grid(testing ~ .)
+p + geom_density(aes(fill = testing), alpha = 0.5)
+p + geom_density(aes(fill = upstream_repo), alpha = 0.5)
+```
+
+```{r downloads-stripplots}
+p <- ggplot(CRANpractices %>% filter(!is.na(roxygen)),
+            aes(x = downloads)) + scale_x_log10(breaks = 10 ^ (1:5),
+                                                labels = comma)
+p + geom_jitter(aes(y = roxygen), alpha = 0.5)
+p + geom_jitter(aes(y = testing), alpha = 0.5)
+p + geom_jitter(aes(y = upstream_repo), alpha = 0.5)
+```
+
+```{r}
+CRANpractices %>% 
+  group_by(upstream_repo) %>% 
+  summarize(no_dld = sum(downloads < 1), yes_dld = sum(downloads >= 1))
+```
+
+I find it hard to believe that organic human-driven downloads would hit essentially every single package on CRAN within a month. Are there automated systems that, e.g., download CRAN in its entirety as a matter of policy? 
+
+### Vignettes
+
+```{r vignettes}
+vig_dat <- CRANpractices %>% 
+  mutate(bar = paste(vignette_format, vignette_builder, sep = "+"))
+vig_dat <- vig_dat %>%
+  count(bar, sort = TRUE) %>% 
+  mutate(bar = factor(bar, rev(bar))) %>% 
+  filter(n > 1)
+p <- ggplot(vig_dat, aes(x = n, y = bar))
+p + geom_segment(aes(yend = bar), xend = 0, lwd = 3, colour = "grey50") +
+  geom_text(aes(label = n), hjust = -0.1, size = 4) +
+  expand_limits(x = 5500) +
+  theme(axis.title.y = element_blank()) 
+```
+
+### Variables I haven't looked at yet
+
+links_to, links_from
