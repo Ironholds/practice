@@ -4,6 +4,12 @@ Oliver Keyes and David Robinson
 
 The `practice` package provides some datasets, particularly about CRAN, that make it easier to use. For maximum transparency, it is set up to construct these datasets using its own functions.
 
+
+```r
+library(practice)
+```
+
+
 ### CRAN Metadata
 
 For example, the `CRANmetadata` object contains a list of lists, each representing metadata information about a CRAN package. It ships with the `practice` package.

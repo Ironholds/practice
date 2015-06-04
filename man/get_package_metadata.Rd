@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_package.R
 \name{get_package_metadata}
 \alias{get_package_metadata}
-\title{get metadata associated with a package on CRAN}
+\title{Get metadata associated with a package on CRAN}
 \usage{
 get_package_metadata(package_name, all = TRUE)
 }
@@ -10,25 +10,27 @@ get_package_metadata(package_name, all = TRUE)
 \item{package_name}{the name of a package, which can be retrieved with
 \code{\link{get_package_names}}}
 
-\item{all}{whether to return all versions of the package, as opposed to
-only the most recent}
+\item{all}{whether to return all versions of the package, as opposed to only
+  the most recent}
 }
 \value{
 a named list containing the metadata associated with the package.
 }
 \description{
-pings the \href{http://crandb.r-pkg.org/}{crandb} CRAN metadata
-service to retrieve metadata associated with a specific package.
+Pings the \href{http://crandb.r-pkg.org/}{crandb} CRAN metadata service to
+retrieve metadata associated with a specific package.
 }
 \examples{
 \dontrun{
 #Get the metadata associated with dplyr
 dplyr_metadata <- get_package_metadata("dplyr")
+str(dplyr_metadata, max.level = 2)
 }
 }
 \seealso{
-\code{\link{get_package_source}} and \code{\link{remove_package_source}} for
-the content of a package, and \code{\link{get_package_names}} to retrieve
-a listing of the names of packages on CRAN.
+\code{\link{get_package_source}} and
+\code{\link{remove_package_source}} for the content of a package, and
+\code{\link{get_package_names}} to retrieve a listing of the names of
+packages on CRAN.
 }
 

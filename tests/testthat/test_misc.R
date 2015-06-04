@@ -13,13 +13,13 @@ test_that("Multi-license packages can be interpreted correctly", {
 
 test_that("links_to works with with_versions=FALSE",{
   result <- links_to("urltools")
-  expect_that(length(result), equals(3))
+  expect_that(length(result), equals(4))
   expect_that(is.vector(result,"character"), equals(TRUE))
 })
 
 test_that("links_to works with with_versions=TRUE",{
   result <- links_to("urltools", with_versions=TRUE)
-  expect_that(nrow(result), equals(3))
+  expect_that(nrow(result), equals(4))
   expect_that(names(result), equals(c("package","version")))
 })
 
