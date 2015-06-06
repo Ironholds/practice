@@ -6,6 +6,16 @@ Jenny Bryan
 
 
 
+### Temporary workaround: date info
+
+Until `CRANpractices` gets rebuilt with more info about a package's birthdate, most recent update, and number of releases ... I'm gonna grab what I can from `CRANmetadata`.
+
+
+```
+## Warning in left_join_impl(x, y, by$x, by$y): joining factor and character
+## vector, coercing into character vector
+```
+
 ### Frequency tables and barcharts
 
 Many variables take on a small number of values and we can digest their frequencies *en masse*.
@@ -20,9 +30,10 @@ Variables in `CRANpractices` that are not covered above:
 
 
 ```
-## [1] "package"          "license"          "links_to"        
-## [4] "vignette_format"  "vignette_builder" "downloads"       
-## [7] "links_from"
+##  [1] "package"          "license"          "links_to"        
+##  [4] "vignette_format"  "vignette_builder" "downloads"       
+##  [7] "links_from"       "first_date"       "pub_date"        
+## [10] "nrel"
 ```
 
 ### License
@@ -94,6 +105,22 @@ I find it hard to believe that organic human-driven downloads would hit essentia
 ### Vignettes
 
 ![](jenny_test_drive_files/figure-html/vignettes-1.png) 
+
+### Number of releases
+
+![](jenny_test_drive_files/figure-html/number-of-releases-1.png) 
+
+### Date of first and most recent CRAN version
+
+<img src="jenny_test_drive_files/figure-html/most-recent-1.png" title="" alt="" width="49%" /><img src="jenny_test_drive_files/figure-html/most-recent-2.png" title="" alt="" width="49%" />
+
+### Practices by date of first recent CRAN version
+
+Left: various approaches to testing against date of most recent version.
+
+Right: Frequency of testing for packages that provide an upstream repo (almost all are GitHub) vs those that do not. A proportional bar chart would be nice ... but don't have yet. Having such a repo appears to be strongly correlated with having tests.
+
+![](jenny_test_drive_files/figure-html/unnamed-chunk-4-1.png) ![](jenny_test_drive_files/figure-html/unnamed-chunk-4-2.png) 
 
 ### Variables I haven't looked at yet
 

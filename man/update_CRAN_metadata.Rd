@@ -2,18 +2,15 @@
 % Please edit documentation in R/datasets.R
 \name{update_CRAN_metadata}
 \alias{update_CRAN_metadata}
-\title{Update the CRAN metadata dataset}
+\title{Update the CRAN metadata object and rda file}
 \usage{
-update_CRAN_metadata(data_dir = "data", all = FALSE, ...)
+update_CRAN_metadata(data_dir = "data", ...)
 }
 \arguments{
 \item{data_dir}{Output directory to write \code{CRANmetadata.rda}}
 
-\item{all}{Whether all versions should be downloaded, or just the latest
-version (by default, only latest version)}
-
 \item{...}{Extra arguments passed on to
-  \code{\link{download_packages_metadata}}}
+  \code{\link{get_package_metadata}}}
 }
 \value{
 The \code{\link{CRANmetadata}} object, invisibly

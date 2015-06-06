@@ -2,17 +2,17 @@
 % Please edit documentation in R/get_package.R
 \name{remove_package_source}
 \alias{remove_package_source}
-\title{remove package source}
+\title{Remove package source}
 \usage{
 remove_package_source(package_directory)
 }
 \arguments{
-\item{package_directory}{the full path to the directory, retrieved
-with \code{\link{get_package_source}}.}
+\item{package_directory}{the full path to the directory, retrieved with
+  \code{\link{get_package_source}}.}
 }
 \description{
-removes the decompressed source code of a package,
-retrieved with \code{get_package_source}, to free up storage
-space and clean up after analysis.
+Removes the decompressed source code of a package, retrieved with
+\code{\link{get_package_source}}, to free up storage space and clean up after
+analysis.
 }
 

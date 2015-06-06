@@ -2,22 +2,22 @@
 % Please edit documentation in R/get_package.R
 \name{get_package_names}
 \alias{get_package_names}
-\title{get the names of available packages}
+\title{Get the names of available packages}
 \usage{
 get_package_names()
 }
 \value{
-a vector of package names that can be passed into \code{\link{get_package_metadata}}
-or \code{\link{get_package_source}}.
+a vector of package names that can be passed into
+  \code{\link{get_package_metadata}} or \code{\link{get_package_source}}.
 }
 \description{
-retrieves the names of available packages from whatever CRAN mirror
-is associated with your session. These can then be passed into
+Retrieves the names of available packages from whatever CRAN mirror is
+associated with your session. These can then be passed into
 \code{\link{get_package_metadata}} or \code{\link{get_package_source}}. The
 results are cached locally after one call.
 }
 \seealso{
-\code{\link{get_package_metadata}} or \code{\link{get_package_source}} for making
-use of this information.
+\code{\link{get_package_metadata}} or
+  \code{\link{get_package_source}} for making use of this information.
 }
 

@@ -17,8 +17,8 @@ update_CRAN_practices(data_dir = "data", src_dir = NULL, ...)
 Check all CRAN practices, and save them to a directory.
 }
 \details{
-This works with the current version of the \code{\link{CRANmetadata
-  dataset}} (make sure you've re-built the package if you've updated that
-  dataset).
+This works with the current version of the
+  \code{\link{CRANmetadata}} dataset (make sure you've re-built the package
+  if you've updated that dataset).
 }
 

@@ -2,33 +2,66 @@
 % Please edit documentation in R/get_package.R
 \name{get_package_metadata}
 \alias{get_package_metadata}
-\title{get metadata associated with a package on CRAN}
+\title{Get metadata associated with CRAN packages}
 \usage{
-get_package_metadata(package_name, all = TRUE)
+get_package_metadata(package_name = NULL, version = NULL,
+  archived = is.null(package_name), verbose = NULL)
 }
 \arguments{
-\item{package_name}{the name of a package, which can be retrieved with
-\code{\link{get_package_names}}}
+\item{package_name}{character vector of package names or \code{NULL}, which
+requests download for all CRAN packages}
 
-\item{all}{whether to return all versions of the package, as opposed to
-only the most recent}
+\item{version}{either "all" or "latest", indicating whether to return
+metadata on all versions of a package or just the most recent; defaults to
+"latest" when user supplies non-\code{NULL} value for \code{package_name};
+ignored if \code{package_name = NULL} because the API always returns
+metadata on all versions in that case}
+
+\item{archived}{logical indicator requesting or suppressing the inclusion of
+metadata for archived packages; only relevant when \code{package_name =
+NULL}, i.e. when retrieving metadata for all CRAN packages}
+
+\item{verbose}{Whether package names should be displayed as they are
+  downloaded; ignored when downloading a single packages or all packages at
+  once}
 }
 \value{
-a named list containing the metadata associated with the package.
+A named list containing the metadata associated with a single package
+  or a named list with such a component for each requested package. This list
+  contains the contents from the
+  \href{https://github.com/metacran/crandb}{CRAN API}, with one field added:
+  \code{retrieved}, a \code{\link[=DateTimeClasses]{POSIXct}} object with the
+  time that the data was retrieved.
 }
 \description{
-pings the \href{http://crandb.r-pkg.org/}{crandb} CRAN metadata
-service to retrieve metadata associated with a specific package.
+Retrieve metadata for one, several, or all packages from the
+\href{http://crandb.r-pkg.org/}{crandb} CRAN metadata service.
 }
 \examples{
 \dontrun{
-#Get the metadata associated with dplyr
-dplyr_metadata <- get_package_metadata("dplyr")
+## get all versions of all CRAN packages, even archived ones
+everything <- get_package_metadata()
+str(everything, max.level = 1, list.len = 5)
+
+## filter out the archived packages
+not_archived <- get_package_metadata(archived = FALSE)
+str(not_archived, max.level = 1, list.len = 5)
+
+## get metadata for latest version of a specific package
+get_package_metadata("dplyr")
+
+## get metadata for all versions of a specific package
+get_package_metadata("dplyr", version = "all")
+
+## get metadata for latest version of selected packages
+just_a_few <- get_package_metadata(c("dplyr", "broom", "lattice", "car"))
+
 }
 }
 \seealso{
-\code{\link{get_package_source}} and \code{\link{remove_package_source}} for
-the content of a package, and \code{\link{get_package_names}} to retrieve
-a listing of the names of packages on CRAN.
+\code{\link{get_package_source}} and
+  \code{\link{remove_package_source}} for the content of a package, and
+  \code{\link{get_package_names}} to retrieve a listing of the names of
+  packages on CRAN.
 }
 

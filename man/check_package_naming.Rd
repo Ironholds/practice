@@ -2,32 +2,33 @@
 % Please edit documentation in R/casing.R
 \name{check_package_naming}
 \alias{check_package_naming}
-\title{classify the format of a package's name}
+\title{Classify the format of a package's name}
 \usage{
 check_package_naming(package_metadata)
 }
 \arguments{
-\item{package_metadata}{package metadata retrieved with \code{\link{get_package_metadata}},
-or the name of a package (in which case \code{get_package_metadata} will be called
-internally).}
+\item{package_metadata}{package metadata retrieved with
+  \code{\link{get_package_metadata}}, or the name of a package (in which case
+  \code{get_package_metadata} will be called internally).}
 }
 \value{
-a named, two-element list containing "casing" ("Lower", "Upper" or "Mixed")
-and "alphanumeric" (TRUE for package names that exclusively contain alphanumeric characters,
-and FALSE for package names that contain special characters.)
+a named, two-element list containing \code{casing} ("Lower", "Upper"
+  or "Mixed") and \code{alphanumeric} (\code{TRUE} for package names that
+  exclusively contain alphanumeric characters, and \code{FALSE} for package
+  names that contain special characters.)
 }
 \description{
-package names come likethis and like.this
-and Like.THIS and in a whole host of formats. \code{check_package_naming}
-consumes package metadata and identifies the format a package's name follows,
-using the convention described below.
+Package names come \code{likethis} and \code{like.this} and \code{Like.THIS}
+and in a whole host of formats. \code{check_package_naming} consumes package
+metadata and identifies the format a package's name follows, using the
+convention described below.
 }
 \examples{
-#Identify if dplyr is all lower-case (yep) and only contains alphanumeric characters
-#(also yep)
+# Identify if dplyr is all lower-case (yep) and only contains alphanumeric
+# characters (also yep)
 check_package_naming(get_package_metadata("ggplot2"))
 
-#gridExtra, not so much
+# gridExtra, not so much
 check_package_naming(get_package_metadata("gridExtra"))
 }
 

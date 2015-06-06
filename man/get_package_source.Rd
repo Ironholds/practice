@@ -10,26 +10,28 @@ get_package_source(package_name)
 \item{package_name}{the name of a package.}
 }
 \value{
-a full, non-relative link to the directory the decompressed
-package is stored in.
+a full, non-relative link to the directory the decompressed package
+  is stored in.
 }
 \description{
-\code{get_package_source} retrieves a package source, decompresses
-it, and places it in a directory so that software engineering tests can be performed
+\code{get_package_source} retrieves a package source, decompresses it, and
+places it in a directory so that software engineering tests can be performed
 on the contents. See the "See also" section for examples of these tests, and
-\code{remove_package_source} to remove the source directory when you're done
-using it.
+\code{\link{remove_package_source}} to remove the source directory when
+you're done using it.
 }
 \examples{
 \dontrun{
-#Get the package source for urltools
+# Get the package source for urltools
 file_location <- get_package_source("urltools")
+file_location
+dir(file_location)
 }
 }
 \seealso{
 \code{\link{remove_package_source}} to remove the package,
-\code{\link{get_package_metadata}} to get the metadata associated
-with a package, or \code{\link{get_package_names}} to retrieve
-a listing of the names of packages on CRAN.
+  \code{\link{get_package_metadata}} to get the metadata associated with a
+  package, or \code{\link{get_package_names}} to retrieve a listing of the
+  names of packages on CRAN.
 }
 
