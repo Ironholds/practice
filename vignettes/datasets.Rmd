@@ -34,7 +34,7 @@ You can create or update this data yourself, using the `update_CRAN_metadata()` 
 practice:::update_CRAN_metadata(verbose = TRUE)
 ```
 
-Note: as you might expect, this will take several minutes! You can always explore the pre-built `CRANmetadata` object first and update later at your convenience.
+Note: as you might expect, this will take several minutes! You can always explore the pre-built `CRANmetadata` object first and update later at your convenience. If you do update the object, remember to re-install the package via, e.g. `devtools::install()`.
 
 ### Package sources
 

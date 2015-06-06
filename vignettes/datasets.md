@@ -20,18 +20,18 @@ str(CRANmetadata, max.level = 1, list.len = 6)
 ```
 
 ```
-## List of 6702
-##  $ A3                         :List of 19
+## List of 7905
+##  $ A3                         :List of 8
 ##   .. [list output truncated]
-##  $ abc                        :List of 19
+##  $ aaMI                       :List of 9
 ##   .. [list output truncated]
-##  $ ABCanalysis                :List of 20
+##  $ abc                        :List of 9
 ##   .. [list output truncated]
-##  $ abc.data                   :List of 19
+##  $ abc.data                   :List of 8
 ##   .. [list output truncated]
-##  $ abcdeFBA                   :List of 19
+##  $ ABCanalysis                :List of 8
 ##   .. [list output truncated]
-##  $ ABCExtremes                :List of 18
+##  $ abcdeFBA                   :List of 8
 ##   .. [list output truncated]
 ##   [list output truncated]
 ```
@@ -41,37 +41,19 @@ str(CRANmetadata[[1]], max.level = 2)
 ```
 
 ```
-## List of 19
-##  $ Package         : chr "A3"
-##  $ Type            : chr "Package"
-##  $ Title           : chr "A3: Accurate, Adaptable, and Accessible Error Metrics for<U+000a>Predictive Models"
-##  $ Version         : chr "0.9.2"
-##  $ Date            : chr "2013-03-24"
-##  $ Author          : chr "Scott Fortmann-Roe"
-##  $ Maintainer      : chr "Scott Fortmann-Roe <scottfr@berkeley.edu>"
-##  $ Description     : chr "This package supplies tools for tabulating and analyzing<U+000a>the results of predictive models. The methods employed are<U+00"| __truncated__
-##  $ License         : chr "GPL (>= 2)"
-##  $ Depends         :List of 3
-##   ..$ R      : chr ">= 2.15.0"
-##   ..$ xtable : chr "*"
-##   ..$ pbapply: chr "*"
-##  $ Suggests        :List of 2
-##   ..$ randomForest: chr "*"
-##   ..$ e1071       : chr "*"
-##  $ Packaged        : chr "2013-03-26 18:58:12 UTC; scott"
-##  $ Repository      : chr "CRAN"
-##  $ Date/Publication: chr "2013-03-26 19:58:40"
-##  $ crandb_file_date: chr "2013-03-26 14:58:40"
-##  $ NeedsCompilation: chr "no"
-##  $ date            : chr "2013-03-26T19:58:40+00:00"
-##  $ releases        :List of 6
-##   ..$ : chr "3.0.0"
-##   ..$ : chr "3.0.1"
-##   ..$ : chr "3.0.2"
-##   ..$ : chr "3.0.3"
-##   ..$ : chr "3.1.0"
-##   ..$ : chr "3.1.1"
-##  $ retrieved       : POSIXct[1:1], format: "2015-06-02 11:19:02"
+## List of 8
+##  $ _id     : chr "A3"
+##  $ _rev    : chr "4-a5fc0ad069abe19f1056fb86557ae044"
+##  $ name    : chr "A3"
+##  $ versions:List of 2
+##   ..$ 0.9.1:List of 17
+##   ..$ 0.9.2:List of 18
+##  $ timeline:List of 2
+##   ..$ 0.9.1: chr "2013-02-07T10:00:27+00:00"
+##   ..$ 0.9.2: chr "2013-03-26T19:58:40+00:00"
+##  $ latest  : chr "0.9.2"
+##  $ title   : chr "A3: Accurate, Adaptable, and Accessible Error Metrics for<U+000a>Predictive Models"
+##  $ archived: logi FALSE
 ```
 
 You can create or update this data yourself, using the `update_CRAN_metadata()` function:
@@ -81,7 +63,7 @@ You can create or update this data yourself, using the `update_CRAN_metadata()` 
 practice:::update_CRAN_metadata(verbose = TRUE)
 ```
 
-Note: as you might expect, this will take several minutes! You can always explore the pre-built `CRANmetadata` object first and update later at your convenience.
+Note: as you might expect, this will take several minutes! You can always explore the pre-built `CRANmetadata` object first and update later at your convenience. If you do update the object, remember to re-install the package via, e.g. `devtools::install()`.
 
 ### Package sources
 

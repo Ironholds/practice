@@ -14,10 +14,25 @@ ggplot2::theme_set(ggplot2::theme_bw())
 
 ```{r load_packages}
 library(practice)
+library(plyr)
 library(dplyr)
 library(ggplot2)
 library(scales)
 data("CRANpractices") # apparently this IS needed if first call is inline?
+```
+
+### Temporary workaround: date info
+
+Until `CRANpractices` gets rebuilt with more info about a package's birthdate, most recent update, and number of releases ... I'm gonna grab what I can from `CRANmetadata`.
+
+```{r}
+date_stuff <- ldply(CRANmetadata, function(x) {
+  y <- as.Date(unlist(x$timeline))
+  data_frame(first_date = min(y),
+             pub_date = max(y),
+             nrel = length(y))
+}, .id = "package")
+CRANpractices <- left_join(CRANpractices, date_stuff)
 ```
 
 ### Frequency tables and barcharts
@@ -121,6 +136,48 @@ p + geom_segment(aes(yend = bar), xend = 0, lwd = 3, colour = "grey50") +
   geom_text(aes(label = n), hjust = -0.1, size = 4) +
   expand_limits(x = 5500) +
   theme(axis.title.y = element_blank()) 
+```
+
+### Number of releases
+
+```{r number-of-releases, fig.height = 6}
+nrel_dat <- CRANpractices %>%
+  count(nrel, sort = TRUE) %>% 
+  arrange(nrel)
+p <- ggplot(nrel_dat, aes(x = n, y = nrel))
+p + geom_segment(aes(yend = nrel), xend = 0, lwd = 3, colour = "grey50") +
+  #geom_text(aes(label = n), hjust = -0.1, size = 4) +
+  ylab("Number of releases") + scale_y_reverse() +
+  expand_limits(x = 1500)
+```
+
+### Date of first and most recent CRAN version
+
+```{r most-recent, fig.show = 'hold', out.width = '49%'}
+p <- ggplot(CRANpractices, aes(x = pub_date, y = 1))
+p + geom_jitter(alpha = 0.5) +
+  theme(axis.title.y = element_blank(), axis.text.y = element_blank())
+p <- ggplot(CRANpractices, aes(x = first_date, y = nrel))
+p + geom_jitter(aes(alpha = 0.3)) + guides(alpha = FALSE) +
+  ylab("Number of releases")
+```
+
+### Practices by date of first recent CRAN version
+
+Left: various approaches to testing against date of most recent version.
+
+Right: Frequency of testing for packages that provide an upstream repo (almost all are GitHub) vs those that do not. A proportional bar chart would be nice ... but don't have yet. Having such a repo appears to be strongly correlated with having tests.
+
+```{r}
+p <- ggplot(CRANpractices, aes(x = pub_date, y = testing))
+p + geom_jitter(aes(alpha = 0.3)) + guides(alpha = FALSE)
+p <- ggplot(
+  CRANpractices %>% 
+    filter(upstream_repo %in% c("GitHub", "None/Other", "R-Forge")) %>% 
+    mutate(#upstream_repo = upstream_repo != "None/Other",
+      testing = testing != "None"),
+  aes(x = upstream_repo, fill = testing))
+p + geom_bar()
 ```
 
 ### Variables I haven't looked at yet
