@@ -15,20 +15,23 @@ check_content <- function(package_directory, regex, ...){
   return(FALSE)
 }
 
-#' This identifies if the input argument is metadata, and goes to grab it
-#' if not.
-#' 
+#' This identifies if the input argument is metadata, and goes to grab it if
+#' not.
+#'
 #' @param metadata package name or metadata list
-#' @param latest If TRUE, and if the metadata contains multiple versions,
-#' it returns only the most recent one.
-check_metadata <- function(metadata, latest = TRUE) {
+#' @param version either "all" or "latest"
+#' @param latest If \code{TRUE}, and if the metadata contains multiple versions,
+#'   it returns only the most recent one.
+check_metadata <- function(metadata, version = "latest") {
+
   if (!is.list(metadata)) {
-    metadata <- get_package_metadata(metadata, all = !latest)
+    metadata <- get_package_metadata(metadata, version = version)
   }
-  
-  if (!is.null(metadata$latest) && latest) {
-    metadata <- metadata$versions[[metadata$latest]]
+
+  latest <- metadata$latest
+  if (!is.null(latest) && version == "latest") {
+    metadata <- metadata$versions[[latest]]
   }
-  
+
   metadata
 }

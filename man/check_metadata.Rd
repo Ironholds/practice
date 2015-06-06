@@ -2,19 +2,21 @@
 % Please edit documentation in R/utilities.R
 \name{check_metadata}
 \alias{check_metadata}
-\title{This identifies if the input argument is metadata, and goes to grab it
-if not.}
+\title{This identifies if the input argument is metadata, and goes to grab it if
+not.}
 \usage{
-check_metadata(metadata, latest = TRUE)
+check_metadata(metadata, version = "latest")
 }
 \arguments{
 \item{metadata}{package name or metadata list}
 
-\item{latest}{If TRUE, and if the metadata contains multiple versions,
+\item{version}{either "all" or "latest"}
+
+\item{latest}{If \code{TRUE}, and if the metadata contains multiple versions,
 it returns only the most recent one.}
 }
 \description{
-This identifies if the input argument is metadata, and goes to grab it
-if not.
+This identifies if the input argument is metadata, and goes to grab it if
+not.
 }
 

@@ -42,7 +42,7 @@ links_to <- function(package_metadata, with_versions = FALSE){
 #'
 #'@export
 links_from <- function(package_metadata){
-  package_metadata <- check_metadata(package_metadata, latest = FALSE)
+  package_metadata <- check_metadata(package_metadata, version = "all")
   if (is.null(package_metadata$revdeps)){
     return(0)
   }

@@ -69,7 +69,7 @@ check_testing <- function(package_directory){
   if (file.exists(test_dir)) {
     return("Other")
   }
-  
+
   return("None")
 }
 
@@ -114,7 +114,7 @@ check_testing <- function(package_directory){
 #'
 #'@export
 check_versioning <- function(package_metadata){
-  latest_version <- check_metadata(package_metadata)
+  latest_version <- check_metadata(package_metadata, version = "latest")
   return(grepl(x = latest_version$Version, pattern = "\\d{1,}\\.\\d{1,}\\.\\d{1,}"))
 }
 
@@ -154,12 +154,12 @@ check_versioning <- function(package_metadata){
 #'@seealso see the package index for more checks.
 #'@export
 check_upstream_repository <- function(package_metadata){
-  
+
   #Get last release and stick the fields that could plausibly contain a repo location
   #in an atomic vector.
   last_release <- check_metadata(package_metadata)
   possible_repositories <- c(last_release$URL, last_release$BugReports)
-  
+
   #Iterate through seeing if the fields contain anything we recognise. If they don't
   #the default of "no repository/repository we don't know" is held.
   repository <- "None/Other"
