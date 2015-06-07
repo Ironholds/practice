@@ -1,0 +1,51 @@
+package,handcode_status,notes
+coxinterval,None,
+lpc,None,
+ridge,None,
+SyNet,None,
+trueskill,None,Doesn't even have examples
+ICsurv,None,Doesn't even have examples
+fdrDiscreteNull,None,Examples in dontrun tags
+bvls,None,Some examples not run
+verification,None,
+CINOEDV,None,
+OutrankingTools,None,
+BoomSpikeSlab,None,
+PopGenome,None,
+HistDAWass,None,
+Table1Heatmap,None,
+mra,None,This is a really unfortunate name for a package
+diagram,None,Some examples not run
+argosfilter,None,
+deepnet,None,
+twostageTE,None,
+sitar,None,
+tagcloud,Some,"Manually-set variables within the package namespace set a debug mode that can be used to run the examples and code, producing additional detailed output"
+PIGE,None,
+relimp,None,
+RapidPolygonLookup,None,
+netweavers,None,Some examples not run
+repolr,None,
+gsmoothr,None,
+r2stl,None,
+prinsimp,None,
+Benchmarking,None,
+tsintermittent,None,
+CRAC,None,
+gimme,None,Some examples not run
+tabplot,None,Tests /outside the package/ in the GitHub repo
+PogromcyDanych,None,No examples run
+BNPdensity,None,This is also a really unfortunate name for a package. The “examples” are the function definitions.
+lava.tobit,None,Almost all examples in dontrun or donttest
+capushe,Some,Tests in a /testsDev/ directory that aren't run on install or automatically on build
+FNN,None,
+gsl,None,
+SynergizeR,None,No examples run
+boxplotdbl,None,
+sig,None,
+ttwa,None,
+mosaicData,None,Dataset package
+MPV,None,
+MetaPCA,None,No examples run
+PCIT,None,
+microbenchmark,Some,"Nonstandard, manually-triggered tests"
