@@ -117,4 +117,11 @@ ggplot(vignette_count, aes(choice, n)) +
 \caption{Distribution of the choice of vignette builder and format, among the `r round(use_vignettes_percent, 1)`\% of CRAN packages that use vignettes. \label{fig:CRAN_vignettes}}
 \end{figure}
 
+### Unit tests
+
+To cover the possibility that these heuristics can fail (non-framework based unit tests can be fairly idiosyncratic) we also hand-coded
+50 packages identified as having no tests. Of those 50, 3 had non-framework based unit tests, all using different approaches - one stored unit tests outside the package, for example, while another required the package to be rebuilt with custom variable flags for the tests to come into effect.
+
+One fallback as an alternative to unit tests is the examples found within R documentation, which, as well as providing useful documentation, also provide early detection of bugs for CRAN and the developers of the package: when a package is rebuilt and checked, the examples are run, and errors are thrown if they do not complete. We noticed several packages without examples, and several more that had examples marked with `dontrun` tags. We hypothesise, from the developers' comments and from our own experiences, that this is to comply with the CRAN policy requiring that the examples and tests take less than a specific time span to run: for complex code or computations, this prohibits examples that are run - by extension, this also prohibits a fallback for unit tests.
+
 \bibliography{RJreferences}
