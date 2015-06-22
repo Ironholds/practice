@@ -90,23 +90,25 @@ check_practices <- function(package_name, metadata_lst = NULL, src_dir = NULL,
     changelog = check_changelog(src),
     vignette_format = vignettes$Format,
     vignette_builder = vignettes$Builder,
-    downloads = check_downloads(package_name, start_date, end_date)
+    downloads = check_downloads(package_name, start_date, end_date),
+    last_release = latest_release(metadata),
+    first_release = earliest_release(metadata)
   )
 
   if (!is.null(metadata$latest)) {
     ret$links_from <- links_from(metadata)
   }
-  
+
   return(ret)
 }
 
 
 #' @title If a vector is of length greater than 1, make it a list;
 #' if it's NULL, return NA
-#' 
+#'
 #' @description This is useful for creating a data frame that may have
 #' list-columns
-#' 
+#'
 #' @param x a vector
 make_vector_list <- function(x) {
   if (length(x) > 1) {
