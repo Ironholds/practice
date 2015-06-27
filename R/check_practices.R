@@ -17,23 +17,23 @@
 #' the practices followed by each.
 #'
 #' @examples
-#' 
+#'
 #' \dontrun{
 #' check_practices("urltools")
-#' 
+#'
 #' # check multiple packages
 #' practices <- check_practices(c("urltools", "ggplot2", "dplyr", "survival"))
 #' practices
-#'  
+#'
 #' # extract what packages each links to
 #' library(dplyr)
 #' library(tidyr)
-#' 
+#'
 #' practices %>%
 #'   select(package, links_to) %>%
 #'   unnest(links_to)
 #' }
-#' 
+#'
 #' @export
 check_practices <- function(package_name, metadata_lst = NULL, src_dir = NULL,
                             error = TRUE) {
@@ -49,17 +49,17 @@ check_practices <- function(package_name, metadata_lst = NULL, src_dir = NULL,
                   error = error)
     return(dplyr::tbl_df(ret))
   }
-  
+
   cat(package_name, sep = "\n")
-  
+
   if (is.null(metadata_lst)) {
     metadata <- get_package_metadata(package_name)
   } else {
     metadata <- metadata_lst[[package_name]]
   }
-  
+
   latest <- check_metadata(metadata)
-  
+
   if (is.null(src_dir)) {
     src <- get_package_source(package_name)
   } else {
@@ -68,15 +68,15 @@ check_practices <- function(package_name, metadata_lst = NULL, src_dir = NULL,
 
   naming = check_package_naming(latest)
   vignettes <- check_vignettes(src)
-  
+
   # readChar, and therefore check_testing/check_roxygen, might fail if
   # there are UTF-8 files. As a temporary workaround, we use NA in its place
   check_testing0 <- dplyr::failwith(NA, check_testing, quiet = TRUE)
   check_roxygen0 <- dplyr::failwith(NA, check_roxygen, quiet = TRUE)
-  
+
   end_date <- Sys.Date()
   start_date <- (end_date - 30)
-  
+
   ret <- dplyr::data_frame(
     package = package_name,
     casing = naming$casing,
