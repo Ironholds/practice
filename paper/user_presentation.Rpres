@@ -25,6 +25,13 @@ Examples
 * Semantic versioning
 * Internal comments
 
+Wait. Why do we care?
+========================================================
+
+* All R package authors are - unintentionally, maybe - software engineers.
+* Write generalised code solving a common(ish) problem.
+* If we're going to do engineering, we should follow those practices.
+
 What about R? Let's find out!
 ========================================================
 
