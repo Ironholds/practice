@@ -54,13 +54,6 @@ Heuristics:
 * Is there a /tests/ folder? "Other". Otherwise..
 * "None"
 
-Results
-========================================================
-
-![basic](basic_usage.svg)
-
-How does that change over time?
-========================================================
 
 
 Testing the methodology
@@ -69,3 +62,12 @@ Testing the methodology
 * Took 50 packages identified as "None" and coded them by hand
 * 4 had non-frameworked unit tests, all working in a different way
 * A disturbingly large number lacked runnable examples
+
+Results
+========================================================
+
+![basic](basic_usage.svg)
+
+How does that change over time?
+========================================================
+
