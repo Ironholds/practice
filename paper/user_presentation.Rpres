@@ -7,6 +7,14 @@ date: 2015-07-02
 opts_chunk$set(cache=TRUE)
 ```
 
+Who?
+========================================================
+
+* HCI researcher
+* Programmer
+* R Cat Lady
+* 'the urltools/Wikipedia guy on Twitter'
+
 What do we mean by "software engineering standards"?
 ========================================================
 
@@ -70,4 +78,3 @@ Results
 
 How does that change over time?
 ========================================================
-
