@@ -19,3 +19,10 @@ ggsave(filename = "./paper/basic_usage.svg",
 data$has_any_tests <- !(data$testing == "None")
 initial_results <- data[,j=list(packages={
     sum(.SD$has_any_tests)/.N}), by= "first_release"]
+
+
+ggsave(filename = "./paper/initial_usage.svg",
+       plot = ggplot(initial_results, aes(first_release, packages)) + 
+                geom_line(stat="identity", fill = "steelblue1") +
+                labs(title = "Unit test usage in initial CRAN releases", x = "Year", y = "Number of packages") +
+                theme_fivethirtyeight())
