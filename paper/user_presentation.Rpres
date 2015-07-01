@@ -21,13 +21,12 @@ What do we mean by "software engineering standards"?
 A set of processes and best practices for ensuring that code is "friendly".
 
 * Friendly to the developer: understandable in 6 months, automatically checks for brainweasel issues.
-* Friendly to the user: clear documentation, breaks in an understandable fashion, transparently built.
+* Friendly to the user: clear documentation, breaks in an understandable fashion.
 
 Examples
 ========================================================
 
 * Unit tests
-* Open repositories
 * Long-form documentation
 * Update news
 * Semantic versioning
